@@ -1,0 +1,25 @@
+/* pages/extension/remarks.wxss */
+.lefan-remarks-label{
+    padding: 30rpx;
+}
+.lefan-remarks-input{
+    background-color: white;
+    padding-left: 30rpx;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+}
+.lefan-remarks-textarea{
+    background-color: white;
+    padding-left: 30rpx;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+    width: 100%;
+    box-sizing: border-box;
+}
+.psection{
+    color: #b2b2b2;
+}
+.lefan-uploader_bd{
+    background-color: white;
+    padding: 30rpx;
+}

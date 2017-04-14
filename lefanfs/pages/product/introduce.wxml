@@ -1,0 +1,10 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <view style="padding-top:60rpx;"></view>
+    <block wx:for="{{results}}">
+      <view bindtap="toProductDetail" class="lefan-pro-view" id="{{index}}">
+        <image class="lefan-pro-image" src="{{item.adPic}}"></image>
+      </view>
+    </block>
+  </view>
+</view>

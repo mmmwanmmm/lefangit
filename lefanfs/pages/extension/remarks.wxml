@@ -1,0 +1,32 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <view class="lefan-remarks-label">
+      <text>备注名</text>
+    </view>
+    <input maxlength="7" bindinput="customerDesc" placeholder-class="psection" class="lefan-remarks-input" value="{{data.customerDesc}}" placeholder="请填写您需要备注的姓名" />
+    <view class="lefan-remarks-label">
+      <text>描述</text>
+    </view>
+    <textarea bindinput="customerText" placeholder-class="psection" class="lefan-remarks-textarea" maxlength="500" placeholder="添加更多备注信息" value="{{data.customerText}}"/>
+    <view class="lefan-remarks-label">
+      <text>添加名片或相关图片</text>
+    </view>
+    <view class="lefan-uploader_bd">
+    <view class="weui-uploader__bd">
+      <view class="weui-uploader__files" id="uploaderFiles">
+        <block wx:for-items="{{files}}" wx:key="{{index}}">
+          <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+            <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+          </view>
+        </block>
+      </view>
+      <view class="weui-uploader__input-box">
+        <view class="weui-uploader__input" bindtap="chooseImage"></view>
+      </view>
+    </view>
+    </view>
+    <view bindtap="submit" class="btn lefan-login-btn">
+        完成
+      </view>
+  </view>
+</view>

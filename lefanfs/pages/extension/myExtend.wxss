@@ -1,0 +1,71 @@
+/* pages/extension/myExtend.wxss */
+@import '../advisory/msg.wxss';
+.lefan-myExtend-hd{
+    text-align: center;
+    background-color: #3B6EFF;
+    padding-top: 10rpx;
+    padding-bottom: 10rpx;
+}
+.lefan-extend-bd{
+    line-height: 100rpx; 
+    /*margin-left: 40rpx;    */
+}
+.lefan-extend-bottom{
+    border-bottom-style:  solid;
+    border-bottom-width: 1rpx;
+    border-bottom-color: #EEEEEE;
+}
+.lefan-extend-arrow{
+    position: relative;
+  padding-right: 30px;
+  /*height: 2.58823529em;
+  min-height: 2.58823529em;
+  line-height: 2.58823529em;*/
+    border-right: 1rpx solid #D9D9D9;
+    padding-left: 30rpx;
+    flex-direction:  row;
+    display:  flex;
+    align-content: space-between;
+ justify-content: space-between;
+}
+.lefan-extend-arrow:before {
+  content: " ";
+  display: inline-block;
+  height: 6px;
+  width: 6px;
+  border-width: 2px 2px 0 0;
+  border-color: #C8C8CD;
+  border-style: solid;
+  -webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+          transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+  position: relative;
+  top: -2px;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  margin-top: -4px;
+}
+.lefan-user-icon{
+  width: 134rpx;
+  height: 134rpx;
+  border-radius: 10rpx;
+  border: 2rpx solid;
+  border-color: #b4b4b4;
+  margin-top: 25rpx;
+  margin-bottom: 25rpx;
+}
+.lefan-myExtend-text1{
+    flex-direction: column;
+    display:  flex;
+    line-height: 45rpx;
+    padding-top: 30rpx;
+    /*padding-left: 30rpx;*/
+}
+.lefan-myExtend-text2{
+    flex-direction: column;
+    display:  flex;
+    line-height: 45rpx;
+    padding-top: 30rpx;
+    padding-left: 150rpx;
+    width: 170rpx;
+}

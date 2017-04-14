@@ -1,0 +1,33 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <swiper class="lefan-case-swiper" indicator-dots="true" autoplay="true" interval="5000" duration="500" circular="true">
+      <block wx:for="{{results}}">
+        <swiper-item>
+          <image style="width:100%" bindtap="image1" src="{{item.adPic}}" id="{{index+1}}"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="lefan-msg-bd">
+      <view class="lefan-msg-bottom">
+        <text style="color:#b2b2b2;font-size: 26rpx;">案例列表</text>
+      </view>
+    </view>
+    <block wx:for="{{userCaseLists}}">
+      <view id="{{index}}" bindtap="toUserCaseDetails" class="lefan-msg-bd">
+        <view class="lefan-msg-bottom">
+          <!--<view>
+            <image class="lefan-case-icon" src="{{item.img}}"></image>
+          </view>-->
+          <view class="lefan-msg-arrow">
+            <view style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
+              <text>{{item.title}}</text>
+            </view>
+            <!--<view style="color:#b2b2b2;font-size: 26rpx;">
+              <text>{{item.content}}</text>
+            </view>-->
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,63 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <view class="lefan-userinfo-he">
+      <image class="lefan-userinfo-login-icon" src="{{userInfo.icon}}"></image>
+      <view>
+        <text style="color:#ffffff;">{{userInfo.nickname}}</text>
+      </view>
+
+      <!--<image class="lefan-userinfo-login-icon-quan" src="../../images/quan.png"></image>-->
+    </view>
+    <view style="padding-top:10px;"></view>
+    <view class="lefan-cells lefan-cells_after-title" id="1" bindtap="nextPage">
+      <view class="lefan-cell lefan-cell_select">
+        <view class="lefan-cell__hd lefan-cell__hd_in-select-after">
+          <image class="lefan-userinfo-select-icon" src="../../images/leaving.png"></image>
+        </view>
+        <view class="weui-cell__bd">
+          <view class="weui-select">我的留言</view>
+        </view>
+      </view>
+    </view>
+    <view class="lefan-cells lefan-cells_after-title" id="2" bindtap="nextPage">
+      <view class="lefan-cell lefan-cell_select">
+        <view class="lefan-cell__hd lefan-cell__hd_in-select-after">
+          <image class="lefan-userinfo-select-icon" src="../../images/apply.png"></image>
+        </view>
+        <view class="weui-cell__bd">
+          <view class="weui-select">我的申请</view>
+        </view>
+      </view>
+    </view>
+    <view class="lefan-cells lefan-cells_after-title" id="3" bindtap="nextPage">
+      <view class="lefan-cell lefan-cell_select">
+        <view class="lefan-cell__hd lefan-cell__hd_in-select-after">
+          <image class="lefan-userinfo-select-icon" src="../../images/message.png"></image>
+        </view>
+        <view class="weui-cell__bd">
+          <view class="weui-select">我的消息</view>
+        </view>
+      </view>
+    </view>
+    <view class="lefan-cells lefan-cells_after-title" id="4" bindtap="nextPage">
+      <view class="lefan-cell lefan-cell_select">
+        <view class="lefan-cell__hd lefan-cell__hd_in-select-after">
+          <image class="lefan-userinfo-select-icon" src="../../images/extension_03.png"></image>
+        </view>
+        <view class="weui-cell__bd">
+          <view class="weui-select">我的推广</view>
+        </view>
+      </view>
+    </view>
+    <view class="lefan-cells lefan-cells_after-title" id="5" bindtap="nextPage">
+      <view class="lefan-cell lefan-cell_select">
+        <view class="lefan-cell__hd lefan-cell__hd_in-select-after">
+          <image class="lefan-userinfo-select-icon" src="../../images/customer_service.png"></image>
+        </view>
+        <view class="weui-cell__bd">
+          <view class="weui-select">咨询留言</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,33 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+  <block wx:for="{{results}}">
+    <view class="lefan-myMsg-bd">
+      <view class="lefan-myMsg-top">
+        <view>
+          <text style="padding-right: 100rpx;">我：</text>
+          <text style="color:#b2b2b2;font-size:12px;">{{item.createTime}}</text>
+        </view>
+          <text style="font-size:14px;">{{item.comment}}</text>
+      </view>
+      
+      <block wx:for="{{item.replyCommentDto}}">
+      <view class="lefan-myMsg-bottom">
+        <view>
+          <text style="padding-right: 100rpx;">回复：</text>
+          <text style="color:#b2b2b2;font-size:12px;">{{item.createTime}}</text>
+        </view>
+        <view>
+          <text style="font-size:14px;color:#b2b2b2;">{{item.comment}}</text>
+        </view>
+      </view>
+      </block>
+    </view>
+</block>
+<view class="loading_box" wx:if="{{pageStatus}}" style="top:{{(leftHeight>rightHeight?leftHeight:rightHeight)-40}}px">
+  <view class="loading1"></view>
+</view>
+<view class="weui-loadmore weui-loadmore_line"wx:if="{{noData}}">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+        </view>
+  </view>
+</view>

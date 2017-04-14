@@ -1,0 +1,10 @@
+/* pages/loan/applyprocess.wxss */
+page {  
+  display: block;  
+  min-height: 100%;  
+  background-color: white;  
+}
+.lefan-applyprocess-img{
+    width: 90%;
+    height: 1000rpx;
+}

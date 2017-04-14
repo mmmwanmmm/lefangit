@@ -1,0 +1,4 @@
+/* pages/indemnity/measure.wxss */
+.psection{
+    color: #b2b2b2;
+}

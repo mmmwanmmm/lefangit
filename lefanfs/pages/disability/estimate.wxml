@@ -1,0 +1,91 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view style="padding-top:10px;"></view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">姓名</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input bindinput="name" class="weui-input" placeholder-class="psection" placeholder="请输入您的姓名" />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">手机号</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input maxlength="11" type="number" bindinput="phone" class="weui-input" placeholder-class="psection" placeholder="请输入您的手机号码" />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">事故地点</view>
+      </view>
+      <view class="lefan-cell__bd">
+        <picker bindchange="bindProvinceChange" value="{{provinceIndex}}" range="{{province}}" range-key="areaName">
+          <view class="lefan-select">{{province[provinceIndex].areaName}}</view>
+        </picker>
+        <picker bindchange="bindCityChange" value="{{cityIndex}}" range="{{city}}" range-key="areaName">
+          <view  class="lefan-select">{{city[cityIndex].areaName}}</view>
+        </picker>
+        <picker bindchange="bindCountyChange" value="{{countyIndex}}" range="{{county}}" range-key="areaName">
+          <view class="lefan-select">{{county[countyIndex].areaName}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">详细地址</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input bindinput="addr" class="weui-input" placeholder-class="psection" placeholder="街道门牌信息"/>
+      </view>
+    </view>
+   <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">事故性质</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker bindchange="bindAccidentChange" value="{{accidentIndex}}" range="{{accident}}" range-key="name">
+          <view class="lefan-select">{{accident[accidentIndex].name}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">待传资料</view>
+      </view>
+      <view class="weui-cell__bd">
+      <view>
+        <text class="psection">1.出院记录/门诊病历</text>
+      </view>
+      <view>
+        <text class="psection">2.诊断证明</text>
+      </view>
+      <view>
+        <text class="psection">3.片子(X片、CT片、磁共振)</text>
+      </view>
+      <view>
+        <text class="psection">4.检查报告  最多上传9张</text>
+      </view>
+      </view>
+    </view>
+  </view>
+  <view class="lefan-uploader_bd">
+    <view class="weui-uploader__bd">
+      <view class="weui-uploader__files" id="uploaderFiles">
+        <block wx:for-items="{{files}}" wx:key="{{index}}">
+          <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+            <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+          </view>
+        </block>
+      </view>
+      <view class="weui-uploader__input-box">
+        <view class="weui-uploader__input" bindtap="chooseImage"></view>
+      </view>
+    </view>
+    </view>
+  <view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="addLoan">提交</button>
+  </view>
+</view>

@@ -1,0 +1,66 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/loan/applyforloan",
+    "pages/loan/applyprocess",
+    "pages/loan/myApplyforloan",
+    "pages/loan/applyDetails",
+    "pages/case/userCase",
+    "pages/case/userCaseDetails",
+    "pages/extension/index",
+    "pages/extension/myExtend",
+    "pages/extension/remarks",
+    "pages/extension/qrcode",
+    "pages/extension/addInfo",
+    "pages/user/userCenter",
+    "pages/user/userLogin",
+    "pages/user/userMsg",
+    "pages/user/userMsgDetails",
+    "pages/product/introduce",
+    "pages/advisory/msg",
+    "pages/advisory/myMsg",
+    "pages/advisory/problem",
+    "pages/proxy/proxyApply",
+    "pages/indemnity/measure",
+    "pages/disability/estimate"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#389fff",
+    "navigationBarTextStyle":"white",
+    "navigationBarTitleText": "乐凡赔偿"
+  },"tabBar": {
+    "color": "#7D7E7E",
+    "selectedColor": "#389FFF",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "selectedIconPath": "images/index_02.png",
+      "iconPath":"images/index_01.png",
+      "text":"首页"
+    },{
+      "pagePath": "pages/case/userCase",
+      "selectedIconPath": "images/index_userCase_02.png",
+      "iconPath":"images/index_userCase_01.png",
+      "text":"案例"
+    },{
+      "pagePath": "pages/extension/index",
+      "selectedIconPath": "images/extension_02.png",
+      "iconPath":"images/extension_01.png",
+      "text":"推广"
+    },{
+      "pagePath": "pages/user/userCenter",
+      "selectedIconPath": "images/userCenter_02.png",
+      "iconPath":"images/userCenter_01.png",
+      "text":"用户中心"
+    }]
+  },"networkTimeout": {
+    "request": 20000,
+    "connectSocket": 20000,
+    "uploadFile": 20000,
+    "downloadFile": 20000
+  },
+  "debug":true
+}

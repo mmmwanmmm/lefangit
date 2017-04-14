@@ -1,0 +1,14 @@
+/* pages/advisory/myMsg.wxss */
+.lefan-myMsg-bd{
+    background-color: white;
+    margin: 30rpx;
+    border-radius: 15rpx;
+}
+.lefan-myMsg-top{
+   
+   padding: 30rpx;
+}
+.lefan-myMsg-bottom{
+  border-top: 1rpx solid #E1E1E1;
+    padding: 30rpx;
+}

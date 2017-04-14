@@ -1,0 +1,24 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+
+
+<view class="lefan-msgDetails-bd">
+
+<view>
+    <text style="font-size:18px;">{{msg.title}}</text>
+</view>
+<view>
+    <text style="color:#b2b2b2">{{msg.sendTime}}</text>
+    <text style="color:#b2b2b2;padding-left: 30rpx;">{{msg.senderName}}</text>
+</view>
+
+<view style="padding-top:60rpx;">
+    <text>{{msg.conent}}</text>
+</view>
+
+</view>
+
+
+
+  </view>
+  </view>

@@ -1,0 +1,27 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <view class="lefan-msg-textarea-view">
+      <textarea maxlength="255" bindinput="message" class="lefan-msg-textarea" placeholder="请输入您想说的内容" maxlength="200" placeholder-class="psection" />
+    </view>
+    <view bindtap="userCommentAdd" class="btn lefan-login-btn">
+      提交
+    </view>
+    <view class="lefan-msg-prompt">
+      <view class="lefan-msg-bd">
+        <view class="lefan-msg-bottom">
+          <text style="color:#b2b2b2;font-size: 26rpx;">常见咨询</text>
+        </view>
+      </view>
+<block wx:for="{{results}}">
+<view bindtap="toMyMsg" class="lefan-msg-bd" id="{{index}}">
+        <view class="lefan-msg-bottom">
+          <view style="color:#b2b2b2;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;" class="lefan-msg-arrow">
+            <text style="color:#b2b2b2;">{{item.question}}</text>
+          </view>
+        </view>
+      </view>
+</block>
+<view></view>
+    </view>
+  </view>
+</view>

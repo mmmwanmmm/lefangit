@@ -1,0 +1,181 @@
+  <form report-submit="true" bindsubmit="formSubmit">
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view style="padding-top:10px;"></view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">姓名</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input disabled="{{optionsData.state===1?true:false}}" bindinput="name" name="name" class="weui-input" placeholder-class="psection" placeholder="请输入您的姓名" value="{{name}}"/>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">手机号</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input disabled="{{optionsData.state===1?true:false}}" maxlength="11" type="number" value="{{phone}}" bindinput="phone" name="phone" class="weui-input" placeholder-class="psection" placeholder="请输入您的手机号码" />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">微信号</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input disabled="{{optionsData.state===1?true:false}}" value="{{wechatId}}" bindinput="wechatId" name="wechatId" class="weui-input" placeholder-class="psection" placeholder="请输入您的微信号" />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">职业</view>
+      </view>
+      <view class="weui-cell__bd">
+        <radio-group name="zhiye" bindchange="zhiye">
+          <view><radio disabled="{{optionsData.state===1?true:false}}" class="weui-input" value="1" checked="true">护士</radio></view>
+          <view><radio  disabled="{{optionsData.state===1?true:false}}"class="weui-input" value="2" >医生</radio></view>
+          <view><radio  disabled="{{optionsData.state===1?true:false}}"class="weui-input" value="3" >护工</radio></view>
+          <view><radio  disabled="{{optionsData.state===1?true:false}}"class="weui-input" value="4" >调解组织</radio></view>
+          <view><radio  disabled="{{optionsData.state===1?true:false}}"class="weui-input" value="5" >其他</radio></view>
+        </radio-group>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">所在地区</view>
+      </view>
+      <view class="lefan-cell__bd">
+        <picker disabled="{{optionsData.state===1?true:false}}" name="province" bindchange="bindProvinceChange" value="{{provinceIndex}}" range="{{province}}" range-key="areaName">
+          <view class="lefan-select">{{province[provinceIndex].areaName}}</view>
+        </picker>
+        <picker disabled="{{optionsData.state===1?true:false}}" name="city" bindchange="bindCityChange" value="{{cityIndex}}" range="{{city}}" range-key="areaName">
+          <view class="lefan-select">{{city[cityIndex].areaName}}</view>
+        </picker>
+        <picker disabled="{{optionsData.state===1?true:false}}" name="county" bindchange="bindCountyChange" value="{{countyIndex}}" range="{{county}}" range-key="areaName">
+          <view class="lefan-select">{{county[countyIndex].areaName}}</view>
+        </picker>
+      </view>
+    </view>
+<view wx:if="{{optionsData!=null}}" class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">状态</view>
+      </view>
+      <view class="weui-cell__bd">
+        <text style="color:red;" class="weui-input" wx:if="{{optionsData.state===1}}">待审核</text>
+        <text class="weui-input" wx:if="{{optionsData.state===2}}">审核通过</text>
+        <text style="color:red;" class="weui-input" wx:if="{{optionsData.state===3}}">审核不通过</text>
+      </view>
+    </view>
+   
+    <view wx:if="{{optionsData.state===3}}" class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">原因</view>
+      </view>
+      <view class="weui-cell__bd">
+        <text class="weui-input">{{optionsData.reason}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <checkbox-group bindchange="bindAgreeChange">
+    <label class="weui-agree" for="weuiAgree">
+      <view class="weui-agree__text">
+        <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
+        <view class="weui-agree__checkbox-icon">
+          <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
+        </view>
+        已阅读并同意
+        
+        <text data-status="1" bindtap="setModalysStatus" style="color:#576b95;">《推广协议》</text>
+      </view>
+    </label>
+  </checkbox-group>
+  <view class="weui-btn-area">
+    <!--<button disabled="{{optionsData.state===1?true:false}}" class="weui-btn" type="primary" bindtap="addUserInfo" data-status="1">提交</button>-->
+    <button form-type="submit" disabled="{{optionsData.state===1?true:false}}" class="weui-btn" type="primary"  data-status="1">提交</button>
+  </view>
+</view>
+
+<view class="drawer_screen" data-status="0" wx:if="{{showModalysStatus}}"></view>
+<view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalysStatus}}">
+  <view class="drawer_attr_content">
+    <view class="text_center">
+      <view>
+        <view class="lefan-apply-diao">
+          <view style="text-align: center;">
+            <text>推广协议</text>
+          </view>
+          <view style="padding-top:30rpx;">
+          <view>
+            <text>第一章           推广申请</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">1、感谢您对“乐凡赔偿”的信赖和支持，您在向“乐凡赔偿”推荐交通事故伤者的同时，也在为伤者提供了一个包含医疗费垫付、陪同调解、代办保险索赔、伤残等级预估、赔偿款测算等综合性专业人伤第三方服务的矛盾纠纷化解平台，“赠人玫瑰手留余香”。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">2、“乐凡赔偿”专注于交通事故案件人伤服务，所以您推荐伤者仅限于在发生交通事故受伤的人员。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">3、您需提供真实、准确、完整的个人注册信息，以便“乐凡赔偿”能够更好的为您服务并准确结算服务费用。您所提交的注册信息，“乐凡赔偿”将在一周内审核完毕，请您及时查看并确认注册信息。在您注册成功后，“乐凡赔偿”将为您生成仅供您个人使用的专属二维码。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">4、 “乐凡赔偿”将对您的注册信息进行妥善保管及保密，若无您的授权，“乐凡赔偿”不会将您的个人资料泄露给任何第三方。</text>
+          </view>
+          <view>
+            <text>第二章           推广方式</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">1、您仅需让需要被帮助的人用微信“扫一扫”您的专属二维码，注册并填写相关信息后即可。</text>
+          </view>
+          <view>
+            <text>第三章           推广信息确认</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">1、“乐凡赔偿”将会对您所推广的伤者进行电话回访，以确认您所推广的伤者信息是否真实，是否属于交通事故。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">2、经“乐凡赔偿”回访核实为无效信息的，“乐凡赔偿”不向您支付任何推广费用。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;"> 3、对于多个推广人员推荐同一伤者的情况，仅认可第一个推荐该伤者的推广人员为有效推荐人，其余的均认定为无效推荐。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">4、对于您推荐错误信息5次以上的，“乐凡赔偿”将取消您的推广资格。（对于多个推广人员推荐同一伤者的不在错误信息范围内）</text>
+          </view>
+          <view>
+            <text>第四章           推广佣金结算</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">1、在您注册成功后，“乐凡赔偿”将为您生成仅供您个人使用的专属二维码，以便于您的推广</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">1、在您注册成功后，“乐凡赔偿”将为您生成仅供您个人使用的专属二维码，以便于您的推广以便确认您在推广“乐凡赔偿”服务过程中的身份识别和费用统计。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">2、您推荐的伤者信息，经“乐凡赔偿”后台审核确认为有效信息后，“乐凡赔偿”将按照20元/件的标准向您结算推广费用。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">3、推广服务费的结算每月结算一次，每月20日结算上个月的推广费用。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">4、推广服务费的结算的方式为微信账户结算，即“乐凡赔偿”将确认后的推广结算费用直接支付到您的微信账号。</text>
+          </view>
+          <view>
+            <text>第五章           附则</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">1、“乐凡赔偿”保留修改此推广协议之权利，而无须事前通知。</text>
+          </view>
+          <view>
+            <text style="color:#b2b2b2;">2、“乐凡赔偿”运作的相关规则及方式的解释权归上海乐凡金融信息有限公司所有。</text>
+          </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view data-status="0" bindtap="setModalysStatus" style="border-top: 1rpx solid #D9D9D9;text-align: center;padding:30rpx;">
+    <text style="color:#09bb07">确定</text>
+  </view>
+</view>
+ </form>

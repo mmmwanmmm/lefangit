@@ -1,0 +1,8 @@
+/* pages/user/userMsg.wxss */
+@import '../advisory/msg.wxss';
+.userMsg{
+    flex-direction:row;
+    display: flex;
+ align-content: space-between;
+ justify-content: space-between;
+}

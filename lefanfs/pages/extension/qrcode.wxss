@@ -1,0 +1,16 @@
+/* pages/extension/qrcode.wxss */
+.lefan-qrcode-image{
+    height: 1240rpx;
+    width: 100%;
+}
+.bbb{
+    position:  relative;
+}
+.aaaa{
+  width: 400rpx;
+  height: 400rpx;
+  position: absolute;
+  z-index: 10;
+  left: 25%;
+  top: 20%;
+}

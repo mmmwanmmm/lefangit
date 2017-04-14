@@ -1,0 +1,5 @@
+<view class="bbb">
+<image class="aaaa" src="{{results.promotedQrcode}}"></image>
+   <image class="lefan-qrcode-image" src="/images/qrcode.png">
+   </image>
+</view>

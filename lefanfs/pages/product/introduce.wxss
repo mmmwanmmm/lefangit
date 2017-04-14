@@ -1,0 +1,15 @@
+/* pages/product/introduce.wxss */
+page {  
+  display: block;  
+  min-height: 100%;  
+  background-color: white;  
+}
+.lefan-pro-image{
+    width: 100%;
+    height: 340rpx;
+}
+.lefan-pro-view{
+    padding-left: 30rpx;
+    padding-right: 30rpx;
+    padding-bottom: 15rpx;
+}

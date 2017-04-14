@@ -1,0 +1,37 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <view class="lefan-myExtend-hd" wx:if="{{resultSize>0}}">
+      <text style="color:#ffffff;">本月您共帮助了</text>
+      <text style="color:#00FF18;">{{resultSize}}</text>
+      <text style="color:#ffffff;">人</text>
+    </view>
+    <view style="padding-top:30rpx;"></view>
+    <view class="lefan-msg-prompt">
+    <block wx:for="{{results}}">
+      <view id="{{index}}" bindtap="toRemarks" class="lefan-extend-bd">
+        <view class="lefan-extend-bottom">
+          <view class="lefan-extend-arrow">
+            <image class="lefan-user-icon" src="{{item.customerImg}}"></image>
+            <view class="lefan-myExtend-text1">
+              <text>{{item.customerName==null?'':item.customerName}}</text>
+              <text style="font-size:26rpx;color:#b2b2b2">{{item.customerPhone==null?'':item.customerPhone}}</text>
+              <text style="font-size:26rpx;color:red" wx:if="{{item.accountState===0}}">未结算</text>
+              <text style="font-size:26rpx;color:red" wx:if="{{item.accountState===1}}">待结算</text>
+              <text style="font-size:26rpx;color:#09bb07" wx:if="{{item.accountState===2}}">已结算</text>
+            </view>
+            <view class="lefan-myExtend-text2">
+              <text>备注：{{item.customerDesc==null?'':item.customerDesc}}</text>
+              <text style="font-size:26rpx;color:#09bb07" wx:if="{{item.customerState===1}}">关注乐凡金服</text>
+              <text style="font-size:26rpx;color:#09bb07" wx:if="{{item.customerState===2}}">申请贷款未获得通过</text>
+              <text style="font-size:26rpx;color:#09bb07" wx:if="{{item.customerState===3}}">获得贷款</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      </block>
+    </view>
+      <view class="weui-loadmore weui-loadmore_line" wx:if="{{noData}}">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+        </view>
+  </view>
+</view>

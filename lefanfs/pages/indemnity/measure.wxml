@@ -1,0 +1,69 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view style="padding-top:10px;"></view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">姓名</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input bindinput="name" class="weui-input" placeholder-class="psection" placeholder="请输入您的姓名" />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">手机号</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input maxlength="11" type="number" bindinput="phone" class="weui-input" placeholder-class="psection" placeholder="请输入您的手机号码" />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">事故地点</view>
+      </view>
+      <view class="lefan-cell__bd">
+        <picker bindchange="bindProvinceChange" value="{{provinceIndex}}" range="{{province}}" range-key="areaName">
+          <view class="lefan-select">{{province[provinceIndex].areaName}}</view>
+        </picker>
+        <picker bindchange="bindCityChange" value="{{cityIndex}}" range="{{city}}" range-key="areaName">
+          <view  class="lefan-select">{{city[cityIndex].areaName}}</view>
+        </picker>
+        <picker bindchange="bindCountyChange" value="{{countyIndex}}" range="{{county}}" range-key="areaName">
+          <view class="lefan-select">{{county[countyIndex].areaName}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">详细地址</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input bindinput="addr" class="weui-input" placeholder-class="psection" placeholder="街道门牌信息"/>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">医疗金额</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input type="number" bindinput="addr" class="weui-input" placeholder-class="psection" placeholder="请输入医疗费金额"/>
+      </view>
+    </view>
+   <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">户口类型</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker bindchange="bindHouseholdTypeChange" value="{{householdTypeIndex}}" range="{{householdType}}" range-key="name">
+          <view class="lefan-select">{{householdType[householdTypeIndex].name}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <view style="padding:15rpx;">
+    <text style="color: #999999;font-size:32rpx;padding-left:40rpx;">只针对交通事故进行测试，若想测算其他的赔偿款，请使用在线咨询</text>
+  </view>
+  <view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="addLoan">提交</button>
+  </view>
+</view>

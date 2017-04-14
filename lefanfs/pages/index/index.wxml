@@ -1,0 +1,48 @@
+<swiper style="height:430rpx" indicator-dots="true" autoplay="true" interval="5000" duration="500" circular="true">
+  <block wx:for="{{results}}">
+    <swiper-item>
+      <image style="width:100%;height:430rpx" bindtap="image1" src="{{item.adPic}}" id="{{item.adHerf}}"></image>
+    </swiper-item>
+  </block>
+</swiper>
+<view class="page__bd">
+  <view class="weui-grids">
+    <view bindtap="indexToSubpage" id="1" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="/images/test.png" />
+      <view class="weui-grid__label">援助申请</view>
+    </view>
+    <!--<view bindtap="indexToSubpage" id="7" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="/images/proxy_apply.png" />
+      <view class="weui-grid__label">代理申请</view>
+    </view>
+    <view bindtap="indexToSubpage" id="8" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="/images/disability.png" />
+      <view class="weui-grid__label">伤残预估</view>
+    </view>
+    <view bindtap="indexToSubpage" id="9" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="/images/indemnity_measure.png" />
+      <view class="weui-grid__label">赔偿测算</view>
+    </view>-->
+    <view bindtap="indexToSubpage" id="2" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="/images/applyprocess.png" />
+      <view class="weui-grid__label">申请流程</view>
+    </view>
+    <view bindtap="indexToSubpage" id="3" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="/images/userCase.png" />
+      <view class="weui-grid__label">援助案例</view>
+    </view>
+    <view bindtap="indexToSubpage" id="4" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="/images/introduce.png" />
+      <view class="weui-grid__label">产品介绍</view>
+    </view>
+    <view id="5" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="/images/advisory.png" />
+    <contact-button size="27" id="aa" type="default-dark" session-from="weapp"></contact-button>
+      <view class="weui-grid__label">在线咨询</view>
+    </view>
+    <view bindtap="indexToSubpage" id="6" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="/images/call.png" />
+      <view class="weui-grid__label">电话联系</view>
+    </view>
+  </view>
+</view>

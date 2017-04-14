@@ -1,0 +1,32 @@
+/* pages/case/userCase.wxss */
+@import '/pages/advisory/msg.wxss';
+page {  
+  display: block;  
+  min-height: 100%;  
+  background-color: white;  
+}
+.lefan-case-swiper{
+    width: 100%;
+    height: 450rpx;
+}
+/*.lefan-msg-bd{
+    line-height: 90rpx; 
+    margin-left: 20rpx;    
+}
+.lefan-msg-bottom{
+    border-bottom-style:  solid;
+    border-bottom-width: 1rpx;
+    border-bottom-color: #EEEEEE;
+    flex-direction:  row;
+    display:  flex;
+}*/
+.lefan-case-icon{
+    width: 120rpx;
+    height: 120rpx;
+    margin-top: 30rpx;
+}
+.lefan-case-centxt{
+    padding-left: 30rpx;
+    padding-top: 30rpx;
+    line-height: 42rpx;
+}

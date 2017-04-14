@@ -1,0 +1,24 @@
+
+<!--pages/user/userMsg.wxml-->
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <view style="padding-top:50rpx;"></view>
+    <view class="lefan-msg-prompt">
+<block wx:for="{{results}}">
+      <view id="{{index}}" bindtap="toUserMsgDetails" class="lefan-msg-bd">
+        <view class="lefan-msg-bottom">
+          <view class="lefan-msg-arrow">
+            <view class="userMsg">
+              <text>{{item.title}}</text>
+              <text style="color:#b2b2b2;font-size:14px;">{{item.sendTime}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+</block>
+    </view>
+    <view class="weui-loadmore weui-loadmore_line" wx:if="{{noData}}">
+            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+        </view>
+  </view>
+</view>

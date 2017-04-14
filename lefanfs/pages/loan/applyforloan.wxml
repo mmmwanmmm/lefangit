@@ -1,0 +1,185 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view style="padding-top:10px;"></view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">姓名</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input bindinput="name" class="weui-input" placeholder-class="psection" placeholder="请输入您的姓名" />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">手机号</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input maxlength="11" type="number" bindinput="phone" class="weui-input" placeholder-class="psection" placeholder="请输入您的手机号码" />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">交通事故</view>
+      </view>
+      <view class="weui-cell__bd">
+        <radio-group bindchange="jiaotong">
+          <radio class="weui-input" value="1" checked="true">是</radio>
+          <radio class="weui-input" value="0" style="padding-left:30px;">否</radio>
+        </radio-group>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">事故地点</view>
+      </view>
+      <view class="lefan-cell__bd">
+        <picker bindchange="bindProvinceChange" value="{{provinceIndex}}" range="{{province}}" range-key="areaName">
+          <view class="lefan-select">{{province[provinceIndex].areaName}}</view>
+        </picker>
+        <picker bindchange="bindCityChange" value="{{cityIndex}}" range="{{city}}" range-key="areaName">
+          <view  class="lefan-select">{{city[cityIndex].areaName}}</view>
+        </picker>
+        <picker bindchange="bindCountyChange" value="{{countyIndex}}" range="{{county}}" range-key="areaName">
+          <view class="lefan-select">{{county[countyIndex].areaName}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">详细地址</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input bindinput="addr" class="weui-input" placeholder-class="psection" placeholder="街道门牌信息"/>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">申请金额</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input type="digit" bindinput="money" class="weui-input" placeholder-class="psection" placeholder="***（元）" />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+      <view class="weui-cell__hd">
+        <view class="weui-label">资金用途</view>
+      </view>
+      <view class="weui-cell__bd">
+        <radio-group bindchange="daikuan">
+          <radio class="weui-input" checked="true" value="1">医疗费用垫付</radio>
+          <radio class="weui-input" value="2">生活康复支出</radio>
+        </radio-group>
+      </view>
+    </view>
+  </view>
+  <checkbox-group bindchange="bindAgreeChange">
+    <label class="weui-agree" for="weuiAgree">
+      <view class="weui-agree__text">
+        <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
+        <view class="weui-agree__checkbox-icon">
+          <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
+        </view>
+        已阅读并同意
+        
+        <text data-status="1" bindtap="setModalysStatus" style="color:#576b95;">《会员协议》</text>乐凡会为您提供优质的服务
+      </view>
+    </label>
+  </checkbox-group>
+  <view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="addLoan" data-status="1">提交</button>
+  </view>
+</view>
+<view class="drawer_screen" data-status="0" wx:if="{{showModalStatus}}"></view>
+<view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalStatus}}">
+  <view class="drawer_attr_content">
+    <view class="text_center">
+      <view>
+        <view class="lefan-apply-diao">
+          <view style="text-align: center;">
+            <text style="color:#09bb07">赔偿所需资料</text>
+          </view>
+          <view style="padding-top:30rpx;">
+            <text>为了尽快帮助您获得赔偿,您需要准备以下材料,我们将会尽快联系您,核实情况,为您提供服务</text>
+          </view>
+          <view>
+            <view class="lefan-apply-txt">
+              <text>(1)身份证正反面;</text>
+              <view id="http://openapi.shlefan.com/pic/images/loan_file_model/idcard.jpg" bindtap="loadImage"><text style="color:#576b95;">查看</text></view>
+            </view>
+            <view class="lefan-apply-txt">
+              <text>(2)事故认定书;</text>
+              <view id="http://openapi.shlefan.com/pic/images/loan_file_model/shigurendingshu.jpg" bindtap="loadImage"><text style="color:#576b95;">查看</text></view>
+            </view>
+            <view class="lefan-apply-txt">
+              <text>(3)诊断证明;</text>
+              <view id="http://openapi.shlefan.com/pic/images/loan_file_model/zhendan.jpg" bindtap="loadImage"><text style="color:#576b95;">查看</text></view>
+            </view>
+            <view class="lefan-apply-txt">
+              <text>(4)驾驶证正页和副页;</text>
+              <view id="http://openapi.shlefan.com/pic/images/loan_file_model/jiashizheng.jpg" bindtap="loadImage"><text style="color:#576b95;">查看</text></view>
+            </view>
+            <view class="lefan-apply-txt">
+              <text>(5)行驶证正页和年检页;</text>
+              <view id="http://openapi.shlefan.com/pic/images/loan_file_model/xingshizheng.jpg" bindtap="loadImage"><text style="color:#576b95;">查看</text></view>
+            </view>
+            <view class="lefan-apply-txt">
+              <text>(6)驾驶员交强险资料;</text>
+              <view id="http://openapi.shlefan.com/pic/images/loan_file_model/jiaoqiangxian.jpg" bindtap="loadImage"><text style="color:#576b95;">查看</text></view>
+            </view>
+            <view class="lefan-apply-txt">
+              <text>(7)驾驶员商业险资料;</text>
+              <view id="http://openapi.shlefan.com/pic/images/loan_file_model/shangyexian.jpg" bindtap="loadImage"><text style="color:#576b95;">查看</text></view>
+            </view>
+            <view class="lefan-apply-txt">
+              <text>(8)费用清单;</text>
+              <view id="http://openapi.shlefan.com/pic/images/loan_file_model/feiyong.jpg" bindtap="loadImage"><text style="color:#576b95;">查看</text></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view data-status="0" bindtap="setModalStatus" style="border-top: 1rpx solid #D9D9D9;text-align: center;padding:30rpx;">
+    <text style="color:#09bb07">知道了</text>
+  </view>
+</view>
+<view class="drawer_screen" data-status="0" wx:if="{{showModalysStatus}}"></view>
+<view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalysStatus}}">
+  <view class="drawer_attr_content">
+    <view class="text_center">
+      <view>
+        <view class="lefan-apply-diao">
+          <view style="text-align: center;">
+            <text>会员协议</text>
+          </view>
+          <view style="padding-top:30rpx;">
+          <view><text>第一章 总则</text></view>
+          <view><text>关于上海乐凡金融信息服务有限公司(简称“乐凡赔偿”)</text></view>
+          <view><text style="color:#b2b2b2;">上海乐凡金融信息服务有限公司于2013年在上海成立，简称“乐凡赔偿”，旗下于2015年投资控股成立“江苏乐凡保险公估有限公司”，并于2016年3月取得中国保监会审批的“经营保险公估业务许可证”。“乐凡赔偿”自成立以来，一直致力于为涉人伤事故当事人提供专业公正的第三方服务，为社会提供涉人伤赔偿矛盾的管理方案。“乐凡赔偿”在保险公估、纠纷调解、法律诉讼、医务管理、金融服务等方面的资源，竭诚为会员的美好生活、工作和出行提供全力保障。目前公司已在全国同行业中处于开创性和领先地位，公司业务范围遍及全国。</text></view>
+          <view><text>“乐凡赔偿”的宗旨</text></view>
+          <view><text style="color:#b2b2b2;">“乐凡赔偿”秉承上海乐凡金融信息服务有限公司“共创和谐美好生活”的企业宗旨，践行“以人为本、与您共享”的社会价值观，旨在体现上海乐凡金融信息服务有限公司的的人文理想主义精神，通过整合公司自身资源及与会员的在会沟通，提供人伤侵权事件处理的专业咨询与指导服务，以达到以下目标：普及法律保险知识、保障人身权益、体现人文关怀、提升生活品质、构建和谐社会。</text></view>
+          <view><text>第二章 会员权益</text></view>
+          <view><text style="color:#b2b2b2;">1、成功注册会员并被核准后，您即可接受及享用“乐凡赔偿”提供的各种服务，同时接受“乐凡赔偿”以电话、手机短信、信函、微信、电子邮件等方式向您发送的相关服务。</text></view>
+          <view><text style="color:#b2b2b2;">2、您也可以通过电话、手机短信、信函、微信、电子邮件等方式，申请“乐凡赔偿”的相关服务。 </text></view>
+          <view><text style="color:#b2b2b2;">3、会员将会免费享有“乐凡赔偿”定期或不定期向会员推送的人伤侵权事件的相关法律、保险、医学等知识，递送相关资料或者刊物。 </text></view>
+          <view><text style="color:#b2b2b2;">4、您可以在“乐凡赔偿”平台中将您的意见和建议进行愉悦的投诉和细致的反映。</text></view>
+          <view><text>第三章 会员守则</text></view>
+           <view><text style="color:#b2b2b2;">1、您提供给“乐凡赔偿”的个人资料应属自愿，填写的信息应真实、准确。</text></view>
+           <view><text style="color:#b2b2b2;">2、若您提供资料不全或不实，将会影响到“乐凡赔偿”所提供服务品质的准确性，由此导致的不利后果均由会员自行承担，与“乐凡赔偿”无关。</text></view>
+           <view><text style="color:#b2b2b2;">3、会员同意并授权“乐凡赔偿”将自己本次受伤的相关信息推送給3名以内的律师，并同意接受律师的电话或者上门法律服务。对于乐凡公司向会员推送律师的服务，会员认可不属于会员个人资料的泄露。”</text></view>
+           <view><text style="color:#b2b2b2;">4、您在享受本会提供的收费服务时，双方的权力义务遵循相应的协议（合同）约定。</text></view>
+           <view><text style="color:#b2b2b2;">5、您不能利用“乐凡赔偿”所提供的服务、资料或文件进行商业或有损于“乐凡赔偿”的活动。</text></view>
+           <view><text>第四章 终止运作</text></view>
+           <view><text style="color:#b2b2b2;">“乐凡赔偿”有权于任何时候终止“乐凡赔偿”的运作。在“乐凡赔偿”的运作被终止后，您的一切权益即告终止。在任何情况下，您不能因“乐凡赔偿”终止运作，而向“乐凡赔偿”或上海乐凡金融信息服务有限公司就免费服务部分提出任何性质的索赔及要求。</text></view>
+            <view><text>第五章 附则</text></view>
+            <view><text style="color:#b2b2b2;">“乐凡赔偿”保留修改此会员协议之权利，而无须事前通知。</text></view>
+            <view><text style="color:#b2b2b2;">“乐凡赔偿”运作的相关规则及方式的解释权归上海乐凡金融信息有限公司所有。</text></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view data-status="0" bindtap="setModalysStatus" style="border-top: 1rpx solid #D9D9D9;text-align: center;padding:30rpx;">
+    <text style="color:#09bb07">确定</text>
+  </view>
+</view>

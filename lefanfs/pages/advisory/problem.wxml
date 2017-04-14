@@ -1,0 +1,24 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__bd">
+    <view class="lefan-myMsg-bd">
+      <view class="lefan-myMsg-top">
+        <view>
+          <text style="padding-right: 100rpx;">问题：</text>
+          <text style="color:#b2b2b2;font-size:12px;">{{results.questionTime}}</text>
+        </view>
+        <view>
+          <text style="font-size:14px;">{{results.question}}</text>
+        </view>
+      </view>
+      <view class="lefan-myMsg-bottom">
+        <view>
+          <text style="padding-right: 100rpx;">解答：</text>
+          <text style="color:#b2b2b2;font-size:12px;">{{results.answerTime}}</text>
+        </view>
+        <view>
+          <text style="font-size:14px;color:#b2b2b2;">{{results.answer}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,119 @@
+/* pages/loan/applyforloan.wxss */
+/*page{
+    display: block;  
+  min-height: 100%;  
+  background-color: #b2b2b2;   
+}*/
+
+.view_top{
+  padding-top: 20px;
+}
+.picker-view {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+.addr-item {
+    line-height: 50px;
+    text-align: center;
+}
+
+.show {
+    text-align: center;
+    margin: 20px;
+    height: 50px;
+}
+.choose {
+    margin: 20px 0;
+}
+.psection{
+    color: #b2b2b2;
+}
+
+
+
+
+
+
+/**/
+
+.drawer_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.2;
+  overflow: hidden;
+  z-index: 1000;
+  color: #fff;
+}
+
+.drawer_attr_box {
+  /*width: 100%;*/
+  overflow: hidden;
+  position: fixed;
+  bottom: 10%;
+  left: 0;
+  z-index: 5000;
+  background: #fff;
+  margin: 60rpx;
+  border-radius: 15rpx;
+}
+
+.close_icon {
+  width: 25rpx;
+  height: 25rpx;
+  line-height: 20rpx;
+  font-size: 30rpx;
+  position: absolute;
+  right: 5rpx;
+  top:5rpx;
+  padding: 10rpx;
+  color: #ccc;
+  border: 1rpx solid #ccc;
+  border-radius: 50%;
+  text-align: center;
+  background: #fff;
+}
+
+.drawer_attr_content {
+  padding: 20rpx;
+  height: 700rpx;
+  overflow-y: scroll;
+}
+
+.drawer_image {
+  width: 400rpx;
+  height: 400rpx;
+}
+
+.drawer_desc{
+    font-size:26rpx;
+    margin:20rpx;
+}
+
+.btn {
+  width: 80%;
+  padding: 15rpx 0;
+  border-radius: 10rpx;
+  text-align: center;
+}
+
+.open_btn {
+  margin: 40rpx 10%;
+  border-radius: 10rpx;
+  background: #20bb21;
+  color: #fff;
+}
+.lefan-apply-diao{
+  padding: 30rpx;
+}
+.lefan-apply-txt{
+  flex-direction:row;
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
+  padding-top:10rpx;
+}

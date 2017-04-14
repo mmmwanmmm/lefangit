@@ -9,11 +9,11 @@
   <view class="weui-grids">
     <view bindtap="indexToSubpage" id="1" class="weui-grid" hover-class="weui-grid_active">
       <image class="weui-grid__icon" src="/images/test.png" />
-      <view class="weui-grid__label">援助申请</view>
+      <view class="weui-grid__label">我要贷款</view>
     </view>
-    <!--<view bindtap="indexToSubpage" id="7" class="weui-grid" hover-class="weui-grid_active">
+    <view bindtap="indexToSubpage" id="7" class="weui-grid" hover-class="weui-grid_active">
       <image class="weui-grid__icon" src="/images/proxy_apply.png" />
-      <view class="weui-grid__label">代理申请</view>
+      <view class="weui-grid__label">我要索赔</view>
     </view>
     <view bindtap="indexToSubpage" id="8" class="weui-grid" hover-class="weui-grid_active">
       <image class="weui-grid__icon" src="/images/disability.png" />
@@ -22,7 +22,7 @@
     <view bindtap="indexToSubpage" id="9" class="weui-grid" hover-class="weui-grid_active">
       <image class="weui-grid__icon" src="/images/indemnity_measure.png" />
       <view class="weui-grid__label">赔偿测算</view>
-    </view>-->
+    </view>
     <view bindtap="indexToSubpage" id="2" class="weui-grid" hover-class="weui-grid_active">
       <image class="weui-grid__icon" src="/images/applyprocess.png" />
       <view class="weui-grid__label">申请流程</view>

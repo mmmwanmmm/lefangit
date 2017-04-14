@@ -6,8 +6,23 @@
         <text>感谢您对“乐凡赔偿”的信赖和支持，您在向“乐凡赔偿”推荐交通事故伤者的同时，也在为伤者提供了一个包含医疗费垫付、陪同调解、代办保险索赔、伤残等级预估、赔偿款测算等综合性专业人伤第三方服务的矛盾纠纷化解平台，“赠人玫瑰手留余香”。</text>
       </view>
     </view>
-    <view style="text-align: center;padding-top:15rpx;">
-    <text data-status="1" bindtap="setModalysStatus" style="color:#576b95;">《推广协议》</text>
+    <view style="padding-top:15rpx;">
+    <radio-group>
+        <radio value="0" checked="true">我是行业精英</radio>
+        <radio value="1" style="padding-left:160rpx;">我是公司/企业</radio>
+    </radio-group>
+    <checkbox-group bindchange="bindAgreeChange">
+    <label class="weui-agree" for="weuiAgree">
+      <view class="weui-agree__text">
+        <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
+        <view class="weui-agree__checkbox-icon">
+          <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
+        </view>
+        点击按钮即表示同意
+        <text data-status="1" bindtap="setModalysStatus" style="color:#576b95;">《推广协议》</text>
+      </view>
+    </label>
+  </checkbox-group>
     </view>
     <view bindtap="onQrCode" class="btn lefan-login-btn">
       我要成为推广大使

@@ -1,0 +1,170 @@
+package com.lefanfs.apicenter.appapi.impl;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.lefanfs.apicenter.appapi.PromotedInfoApi;
+import com.lefanfs.apicenter.dao.PromotedInfoMapper;
+import com.lefanfs.apicenter.dao.UserInfoMapper;
+import com.lefanfs.apicenter.dao.UserPromotedMapper;
+import com.lefanfs.apicenter.model.PromotedInfo;
+import com.lefanfs.apicenter.model.UserInfo;
+import com.lefanfs.apicenter.model.UserPromoted;
+import com.lefanfs.apicenter.service.impl.BaseServiceImpl;
+import com.lefanfs.apicenter.util.HttpClientUtils;
+import com.lefanfs.apicenter.util.QrUtils;
+import com.lefanfs.base.annotations.ApiMethod;
+import com.lefanfs.base.annotations.ApiParam;
+import com.lefanfs.base.annotations.ApiService;
+import com.lefanfs.base.dto.ApiRequest;
+import com.lefanfs.base.dto.ApiResponse;
+import com.lefanfs.base.enums.ApiMsgEnum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by Jani on 2017/3/8.
+ */
+@Service
+@ApiService(descript = "推广相关API")
+public class PromotedInfoApiImpl  extends BaseServiceImpl implements PromotedInfoApi{
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+    @Autowired
+    private PromotedInfoMapper promotedInfoMapper;
+
+    @Autowired
+    private UserPromotedMapper userPromotedMapper;
+
+
+    /**
+     * 用户推广认证信息查询
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "用户推广认证信息查询", value = "user-promoted-indetails", apiParams = { @ApiParam(descript = "用户标识ID(*)", name = "userId")})
+    @Override
+    public ApiResponse<UserPromoted> selectUserPromotedInfoByuserId(ApiRequest apiReq) {
+       /*Long userId = apiReq.getLong("userId");
+       apiReq.put("userId",userId);*/
+       UserPromoted userPromoted = this.userPromotedMapper.selectUserPromotedByUserId(apiReq);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,1,userPromoted);
+    }
+
+    /**
+     * 提交我的推广信息
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "提交推广认证信息", value = "insert-user-promoted", apiParams = { @ApiParam(descript = "用户ID(*)", name = "userId"),
+            @ApiParam(descript = "真实姓名(*)", name = "realName"), @ApiParam(descript = "推广电话(*)", name = "phone"),
+            @ApiParam(descript = "职业(*)", name = "occupation"),@ApiParam(descript = "省(*)", name = "province"),@ApiParam(descript = "城市(*)", name = "city"),
+            @ApiParam(descript = "区域(*)", name = "district")})
+    @Override
+    public ApiResponse updateUserPromoted(ApiRequest apiReq) {
+        Long userId = apiReq.getLong("userId");
+        String realName = apiReq.getString("realName");
+        String phone = apiReq.getString("phone");
+        Integer occupation = apiReq.getInt("occupation");
+        String province = apiReq.getString("province");
+        String city = apiReq.getString("city");
+        String district = apiReq.getString("district");
+       /* String qrCode="";
+        try {
+            qrCode=qrCode+QrUtils.QRfromGoogle("userId="+userId.toString());
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        Map retMap = new HashMap();
+        retMap.put("userId",userId);
+        UserInfo userInfo=this.userInfoMapper.selectUserInfoByUserId(retMap);*/
+      /*  if(userInfo!=null){
+            userInfo.setPromotedQrcode(qrCode);
+            userInfo.setIsPromoter(1);
+            //修改二维码
+            userInfoMapper.updateByPrimaryKeySelective(userInfo);
+
+        }*/
+        //增加推广人信息
+        UserPromoted userPromoted = new UserPromoted();
+        userPromoted.setUserId(userId);
+        userPromoted.setRealName(realName);
+        userPromoted.setPhone(phone);
+        userPromoted.setOccupation(occupation);
+        userPromoted.setProvince(province);
+        userPromoted.setCity(city);
+        userPromoted.setDistrict(district);
+        userPromoted.setState(1);//待审核
+        this.userPromotedMapper.insertSelective(userPromoted);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,1,userPromoted);
+    }
+
+    /**
+     * 我的推广列表
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "我的推广列表", value = "promotedInfo-list", apiParams = { @ApiParam(descript = "用户ID(*)", name = "userId")})
+    @Override
+    public ApiResponse<List<PromotedInfo>> getPromotedInfoList(ApiRequest apiReq) {
+        Long userId = apiReq.getLong("userId");
+        this.setPageIndex(apiReq);
+        apiReq.put("promoterId",userId);
+        List<PromotedInfo> list = promotedInfoMapper.selectPromotedInfoList(apiReq);
+        return new ApiResponse<List<PromotedInfo>>(ApiMsgEnum.SUCCESS, (list == null ? 0 : list.size()), list);
+    }
+
+    /**
+     * 推广人详情
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "推广人详情", value = "promotedInfo-indetails", apiParams = { @ApiParam(descript = "推广标识ID", name = "id")})
+    @Override
+    public ApiResponse<PromotedInfo> selectPromotedInfoById(ApiRequest apiReq) {
+        Long id = apiReq.getLong("id");
+        PromotedInfo promotedInfo = this.promotedInfoMapper.selectByPrimaryKey(id);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,1,promotedInfo);
+    }
+
+
+    /**
+     * 修改推广人信息
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "修改推广人备注相关信息", value = "promotedInfo-update", apiParams = { @ApiParam(descript = "推广标识ID", name = "id"),
+            @ApiParam(descript = "客户备注", name = "customerDesc"),@ApiParam(descript = "客户描述", name = "customerText"),@ApiParam(descript = "客户名片", name = "customerBusinessCard")})
+    @Override
+    public ApiResponse<PromotedInfo> updatePromotedInfoById(ApiRequest apiReq) {
+        Long id = apiReq.getLong("id");
+        PromotedInfo promotedInfo = new PromotedInfo();
+        promotedInfo.setId(id);
+        if(!StringUtils.isEmpty(apiReq.get("customerDesc"))){
+            promotedInfo.setCustomerDesc(apiReq.getString("customerDesc"));
+        }
+        if(!StringUtils.isEmpty(apiReq.get("customerText"))){
+            promotedInfo.setCustomerText(apiReq.getString("customerText"));
+        }
+        if(!StringUtils.isEmpty(apiReq.get("customerBusinessCard"))){
+            promotedInfo.setCustomerBusinessCard(apiReq.getString("customerBusinessCard"));
+        }
+        int result = this.promotedInfoMapper.updateByPrimaryKeySelective(promotedInfo);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,1,promotedInfo);
+    }
+
+
+
+}

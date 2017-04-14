@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/lefanfs.iml" filepath="$PROJECT_DIR$/lefanfs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lefanfs_apicenter/lefanfs_apicenter.iml" filepath="$PROJECT_DIR$/lefanfs_apicenter/lefanfs_apicenter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lefanfs_backend/lefanfs_backend.iml" filepath="$PROJECT_DIR$/lefanfs_backend/lefanfs_backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lefanfs_base/lefanfs_base.iml" filepath="$PROJECT_DIR$/lefanfs_base/lefanfs_base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lefanfs_task/lefanfs_task.iml" filepath="$PROJECT_DIR$/lefanfs_task/lefanfs_task.iml" />
+    </modules>
+  </component>
+</project>
+

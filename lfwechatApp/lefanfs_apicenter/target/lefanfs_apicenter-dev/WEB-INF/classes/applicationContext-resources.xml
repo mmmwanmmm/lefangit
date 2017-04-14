@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/aop         
+     	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+     	http://www.springframework.org/schema/task
+     	http://www.springframework.org/schema/task/spring-task-3.0.xsd     	
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+    <context:component-scan base-package="com.lefanfs.apicenter.dao" />
+	<context:component-scan base-package="com.lefanfs.apicenter.domain" />
+	<context:component-scan base-package="com.lefanfs.apicenter.service com.lefanfs.apicenter.inner com.lefanfs.apicenter.appapi com.lefanfs.apicenter.backendapi" />
+	<bean class="com.lefanfs.apicenter.util.ServiceLocator"></bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		<property name="mapperLocations" value="classpath:sqlmap/*.xml"></property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lefanfs.apicenter.dao" />
+	</bean>
+
+ 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<task:executor id="myExecutor" pool-size="10"/>
+	<task:scheduler id="myScheduler" pool-size="10"/>
+	<task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>
+	
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" p:host-name="139.196.30.32" p:port="6379" p:password="shlefan.com123" p:usePool="false" />
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" p:connection-factory-ref="jedisConnectionFactory"/>
+	<bean id="redisService" class="com.lefanfs.apicenter.service.impl.RedisServiceImpl"></bean>
+
+	<!-- <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+	<bean id="jdkSerializationRedisSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>	
+	<bean id="ufopMessageDelegate" class="com.ccplay.task.service.impl.UfopMessageDelegate"/>
+	<bean id="cleanCacheMessageDelegate" class="com.ccplay.task.service.impl.CleanCacheMessageDelegate"/>
+	<bean id="ufopMessageListener" class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="ufopMessageDelegate"/>
+		<property name="serializer" ref="jdkSerializationRedisSerializer"/>
+	</bean>
+	<bean id="cleanCacheMessageListener" class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="cleanCacheMessageDelegate"/>
+		<property name="serializer" ref="jdkSerializationRedisSerializer"/>
+	</bean>
+	<bean id="redisContainer" class="org.springframework.data.redis.listener.RedisMessageListenerContainer">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+		<property name="messageListeners">
+			<map>
+				<entry key-ref="ufopMessageListener">
+					<bean class="org.springframework.data.redis.listener.ChannelTopic">
+						<constructor-arg value="ufopMessageChannel"/>
+					</bean>
+				</entry>
+				<entry key-ref="cleanCacheMessageListener">
+					<bean class="org.springframework.data.redis.listener.ChannelTopic">
+						<constructor-arg value="cleanCacheMessageChannel"/>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean> -->
+</beans>

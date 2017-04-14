@@ -1,0 +1,118 @@
+package com.lefanfs.apicenter.appapi.impl;
+
+import com.lefanfs.base.annotations.ApiMethod;
+import com.lefanfs.base.annotations.ApiParam;
+import com.lefanfs.base.annotations.ApiService;
+import com.lefanfs.base.dto.ApiRequest;
+import com.lefanfs.base.dto.ApiResponse;
+import com.lefanfs.base.enums.ApiMsgEnum;
+import com.lefanfs.apicenter.appapi.UserInfoApi;
+import com.lefanfs.apicenter.dao.UserInfoMapper;
+import com.lefanfs.apicenter.dto.UserInfoDto;
+import com.lefanfs.apicenter.model.UserInfo;
+import com.lefanfs.apicenter.service.impl.BaseServiceImpl;
+import com.lefanfs.apicenter.util.FileUtils;
+import com.mysql.jdbc.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by fanshuai on 16/10/25.
+ */
+@Service
+@ApiService(descript = "用户基本信息服务")
+public class UserInfoApiImpl extends BaseServiceImpl implements UserInfoApi {
+    @Value("img.host")
+    private String imgHost;
+
+
+    @Value("${file.server.url}")
+    private String fileServerUrl;
+
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(needLogin = true,descript = "查询用户基本信息", value = "user-info-load", apiParams = {@ApiParam(name = "user_token",descript = "当前用户token(*)")   })
+    @Override
+    public ApiResponse loadUserInfo(ApiRequest apiReq) {
+        Map retMap = new HashMap();
+        Long userId = apiReq.getCurrentUserId();
+        UserInfo userInfo = userInfoMapper.selectByPrimaryKey(userId);
+        UserInfoDto userInfoDto = new UserInfoDto();
+        userInfoDto.setUserId(userId);
+        userInfoDto.setNickName(userInfo.getNickName());
+        userInfoDto.setUserIcon(super.getUserIcon(this.getCdnUrl(null, userInfo.getImg(),null)));
+        userInfoDto.setSex(userInfo.getSex());
+        retMap.put("userInfo",userInfoDto);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,1,retMap);
+    }
+
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(needLogin = true,descript = "修改用户基本信息", value = "user-info-update", apiParams = {@ApiParam(name = "user_token",descript = "当前用户token(*)")   })
+    @Override
+    public ApiResponse updateUserInfo(ApiRequest apiReq) {
+        try {
+            checkParam_updateUserInfo(apiReq);
+        } catch (Exception e) {
+            Map retMap = new HashMap();
+            retMap.put("errorMsg",e.getMessage());
+            return new ApiResponse(ApiMsgEnum.DATA_FORMAT_EXCEPTION,1,retMap);
+        }
+        try {
+            Long userId = apiReq.getCurrentUserId();
+            UserInfo userInfo = userInfoMapper.selectByPrimaryKey(userId);
+            String nickName = apiReq.getString("nickName");
+            Integer sex = apiReq.getInt("sex");
+            userInfo.setNickName(nickName);
+            userInfo.setSex(sex);
+            userInfoMapper.updateByPrimaryKey(userInfo);
+            Map retMap = new HashMap();
+            return new ApiResponse(ApiMsgEnum.SUCCESS,1,retMap);
+        }catch (Exception e){
+            return new ApiResponse(ApiMsgEnum.FAIL);
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(needLogin = true,descript = "修改图片为自定义上传图片", value = "user-info-updateIcon", apiParams = {@ApiParam(name = "user_token",descript = "当前用户token(*)"),@ApiParam(name = "fileData",descript = "自定义图片base64编码(*)")   })
+    @Override
+    public ApiResponse updateUserIcon(ApiRequest apiReq) {
+        Long userId = apiReq.getCurrentUserId();
+        String userIcon = apiReq.getString("userIcon");
+        if (StringUtils.isNullOrEmpty(userIcon)){
+            String fileData = apiReq.getString("fileData");
+            String filePath = FileUtils.saveBytesToFile("userIcon", fileData);
+            userIcon=filePath;
+        }
+        UserInfo userInfo=userInfoMapper.selectByPrimaryKey(userId);
+        userInfo.setImg(userIcon);
+        int updatedNum = userInfoMapper.updateByPrimaryKeySelective(userInfo);
+        if (updatedNum>0){
+            //update success
+            return new ApiResponse(ApiMsgEnum.SUCCESS,1,this.getCdnUrl(null,userIcon,null));
+        }else {
+            //update fail
+            return new ApiResponse(ApiMsgEnum.FAIL);
+        }
+    }
+
+    private void checkParam_updateUserInfo(ApiRequest apiReq) throws Exception {
+        String nickName = apiReq.getString("nickName");
+        if (StringUtils.isNullOrEmpty(nickName)||nickName.length()>20){
+            throw new Exception("昵称不能为空且大于20字符");
+        }
+        Integer sex = apiReq.getInt("sex");
+        if (sex==null ||(sex!=1 && sex!=2)){
+            throw new  Exception("性别选择不正确");
+        }
+    }
+
+}

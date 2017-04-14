@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: sh.zj100:common_util:1.1.18">
+    <CLASSES>
+      <root url="jar://D:/apache-maven-3.0.4/repo/sh/zj100/common_util/1.1.18/common_util-1.1.18.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/apache-maven-3.0.4/repo/sh/zj100/common_util/1.1.18/common_util-1.1.18-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/apache-maven-3.0.4/repo/sh/zj100/common_util/1.1.18/common_util-1.1.18-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

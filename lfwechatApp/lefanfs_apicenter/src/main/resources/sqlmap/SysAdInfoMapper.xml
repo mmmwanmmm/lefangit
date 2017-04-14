@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lefanfs.apicenter.dao.SysAdInfoMapper">
+	<resultMap id="BaseResultMap" type="com.lefanfs.apicenter.model.SysAdInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="ad_code" property="adCode" jdbcType="VARCHAR" />
+		<result column="ad_des" property="adDes" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="ad_title" property="adTitle" jdbcType="VARCHAR" />
+		<result column="ad_herf" property="adHerf" jdbcType="VARCHAR" />
+		<result column="ad_order" property="adOrder" jdbcType="INTEGER" />
+		<result column="ad_pic" property="adPic" jdbcType="VARCHAR" />
+		<result column="delete_flag" property="deleteFlag" jdbcType="INTEGER" />
+		<result column="promotion_id" property="promotionId" jdbcType="BIGINT" />
+		<result column="category_id" property="categoryId" jdbcType="BIGINT" />
+		<result column="brand_id" property="brandId" jdbcType="BIGINT" />
+		<result column="promotion_code" property="promotionCode" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, ad_code, ad_des, create_time, ad_title, ad_herf, ad_order, ad_pic, delete_flag,
+		promotion_id, category_id, brand_id, promotion_code
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from sys_ad_info
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from sys_ad_info
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.lefanfs.apicenter.model.SysAdInfo">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_ad_info (ad_code, ad_des, create_time,
+		ad_title, ad_herf, ad_order,
+		ad_pic, delete_flag, promotion_id,
+		category_id, brand_id, promotion_code
+		)
+		values (#{adCode,jdbcType=VARCHAR}, #{adDes,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{adTitle,jdbcType=VARCHAR}, #{adHerf,jdbcType=VARCHAR}, #{adOrder,jdbcType=INTEGER},
+		#{adPic,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}, #{promotionId,jdbcType=BIGINT},
+		#{categoryId,jdbcType=BIGINT}, #{brandId,jdbcType=BIGINT}, #{promotionCode,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lefanfs.apicenter.model.SysAdInfo">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_ad_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="adCode != null">
+				ad_code,
+			</if>
+			<if test="adDes != null">
+				ad_des,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="adTitle != null">
+				ad_title,
+			</if>
+			<if test="adHerf != null">
+				ad_herf,
+			</if>
+			<if test="adOrder != null">
+				ad_order,
+			</if>
+			<if test="adPic != null">
+				ad_pic,
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag,
+			</if>
+			<if test="promotionId != null">
+				promotion_id,
+			</if>
+			<if test="categoryId != null">
+				category_id,
+			</if>
+			<if test="brandId != null">
+				brand_id,
+			</if>
+			<if test="promotionCode != null">
+				promotion_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="adCode != null">
+				#{adCode,jdbcType=VARCHAR},
+			</if>
+			<if test="adDes != null">
+				#{adDes,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="adTitle != null">
+				#{adTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="adHerf != null">
+				#{adHerf,jdbcType=VARCHAR},
+			</if>
+			<if test="adOrder != null">
+				#{adOrder,jdbcType=INTEGER},
+			</if>
+			<if test="adPic != null">
+				#{adPic,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteFlag != null">
+				#{deleteFlag,jdbcType=INTEGER},
+			</if>
+			<if test="promotionId != null">
+				#{promotionId,jdbcType=BIGINT},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=BIGINT},
+			</if>
+			<if test="brandId != null">
+				#{brandId,jdbcType=BIGINT},
+			</if>
+			<if test="promotionCode != null">
+				#{promotionCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lefanfs.apicenter.model.SysAdInfo">
+		update sys_ad_info
+		<set>
+			<if test="adCode != null">
+				ad_code = #{adCode,jdbcType=VARCHAR},
+			</if>
+			<if test="adDes != null">
+				ad_des = #{adDes,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="adTitle != null">
+				ad_title = #{adTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="adHerf != null">
+				ad_herf = #{adHerf,jdbcType=VARCHAR},
+			</if>
+			<if test="adOrder != null">
+				ad_order = #{adOrder,jdbcType=INTEGER},
+			</if>
+			<if test="adPic != null">
+				ad_pic = #{adPic,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag = #{deleteFlag,jdbcType=INTEGER},
+			</if>
+			<if test="promotionId != null">
+				promotion_id = #{promotionId,jdbcType=BIGINT},
+			</if>
+			<if test="categoryId != null">
+				category_id = #{categoryId,jdbcType=BIGINT},
+			</if>
+			<if test="brandId != null">
+				brand_id = #{brandId,jdbcType=BIGINT},
+			</if>
+			<if test="promotionCode != null">
+				promotion_code = #{promotionCode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lefanfs.apicenter.model.SysAdInfo">
+		update sys_ad_info
+		set ad_code = #{adCode,jdbcType=VARCHAR},
+		ad_des = #{adDes,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		ad_title = #{adTitle,jdbcType=VARCHAR},
+		ad_herf = #{adHerf,jdbcType=VARCHAR},
+		ad_order = #{adOrder,jdbcType=INTEGER},
+		ad_pic = #{adPic,jdbcType=VARCHAR},
+		delete_flag = #{deleteFlag,jdbcType=INTEGER},
+		promotion_id = #{promotionId,jdbcType=BIGINT},
+		category_id = #{categoryId,jdbcType=BIGINT},
+		brand_id = #{brandId,jdbcType=BIGINT},
+		promotion_code = #{promotionCode,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="selectList" resultType="com.lefanfs.apicenter.dto.AdListDto" parameterType="java.util.Map">
+		select
+			ad_title as adTitle,
+			ad_pic as adPic,
+			ad_herf as adHerf
+		from sys_ad_info
+		where delete_flag=0 and ad_code=#{adCode}
+		order by ad_order asc,create_time desc
+		limit #{pageIndex}, #{pageSize}
+	</select>
+	<select id="selectCountForBackend" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+			count(1)
+		from sys_ad_info
+		where delete_flag=0
+	</select>
+	<select id="selectListForBackend" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from sys_ad_info
+		where delete_flag=0
+		order by ad_code asc,ad_order asc,create_time desc
+		limit #{pageIndex}, #{pageSize}
+	</select>
+</mapper>

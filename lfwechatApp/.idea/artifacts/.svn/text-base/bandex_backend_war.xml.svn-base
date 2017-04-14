@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="bandex_backend:war">
+    <output-path>$PROJECT_DIR$/bandex_backend/target</output-path>
+    <root id="archive" name="bandex_backend-dev.war">
+      <element id="artifact" artifact-name="bandex_backend:war exploded" />
+    </root>
+  </artifact>
+</component>

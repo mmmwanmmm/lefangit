@@ -1,0 +1,133 @@
+package com.lefanfs.backend.web;
+
+import com.lefanfs.base.constants.Constant;
+import com.lefanfs.base.dto.ApiFinalResponse;
+import com.lefanfs.base.enums.ApiServerEnum;
+import com.lefanfs.base.enums.BackendApiMethodEnum;
+import com.lefanfs.base.utils.HttpClientUtil;
+import com.lefanfs.base.utils.JsonUtil;
+import com.lefanfs.base.web.SuperDispatcherServlet;
+import com.lefanfs.base.web.WebHelper;
+import com.google.gson.reflect.TypeToken;
+import com.lefanfs.backend.dto.SysUserDto;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.util.WebUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
+
+public class BackendBaseController {
+	protected static final String SESSION_ADMIN_DTO = "adminDto";
+
+	protected static final String SESSION_MENULIST_DTO = "menuListDto";
+
+	protected static final String SESSION_MENU_MAP = "menuMap";
+
+	@Value("${api.server}")
+	private String apiServer;
+
+	@Value("${api.key}")
+	private String apiKey;
+
+	@Value("${api.secert}")
+	private String apiSecert;
+
+	protected void setOperator(Map<String, Object> appendMap, HttpServletRequest req) {
+		SysUserDto adminSession = this.getSessionAdmin(req);
+		if (adminSession != null) {
+			appendMap.put("operatorId", adminSession.getId());
+			appendMap.put("operatorName", adminSession.getUsername());
+		}
+	}
+
+	protected boolean isLogon(HttpServletRequest req) {
+		if (this.getSessionAdmin(req) != null) {
+			return true;
+		}
+		return false;
+	}
+
+	protected Integer getSessionAdminId(HttpServletRequest req) {
+		SysUserDto adminDto = this.getSessionAdmin(req);
+		if (adminDto != null) {
+			return adminDto.getId();
+		}
+		return null;
+	}
+
+	protected SysUserDto getSessionAdmin(HttpServletRequest req) {
+		SysUserDto adminDto = (SysUserDto) WebUtils.getSessionAttribute(req, SESSION_ADMIN_DTO);
+		return adminDto;
+	}
+
+	protected String callApi(BackendApiMethodEnum apiMethodEnum, Map<String, Object> appendMap, HttpServletRequest req) {
+		return this._callApi(apiMethodEnum.getCode(), apiMethodEnum.getApiServer(), appendMap, req);
+	}
+
+	protected ApiFinalResponse callApi(TypeToken type,BackendApiMethodEnum apiMethodEnum, Map<String, Object> appendMap, HttpServletRequest req) {
+		String json =  this._callApi(apiMethodEnum.getCode(), apiMethodEnum.getApiServer(), appendMap, req);
+		ApiFinalResponse apiRsp = JsonUtil.jsonToObject(json, type.getType());
+		return apiRsp;
+	}
+
+	private String _callApi(String apiCode, ApiServerEnum apiServer, Map<String, Object> appendMap, HttpServletRequest req) {
+		Map<String, Object> reqParamMap = null;
+		if (req != null) {
+			reqParamMap = WebHelper.buildParamMapFromRequest(req);
+			reqParamMap.put(Constant.REQUEST_IP, WebHelper.getRequestIp(req));
+			this.setOperator(reqParamMap, req);
+		} else {
+			reqParamMap = new HashMap<String, Object>();
+		}
+		if (appendMap != null && appendMap.size() > 0) {
+			reqParamMap.putAll(appendMap);
+		}
+		reqParamMap.put(Constant.API_CODE, apiCode);
+		reqParamMap.put(Constant.API_KEY, apiKey);
+		reqParamMap.put(Constant.API_SIGN, Constant.INNER_API_SIGN);
+
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		String dataJson = JsonUtil.objectToJson(reqParamMap, Map.class);
+		paramMap.put(Constant.DATA, dataJson);
+
+		HttpClientUtil clientUtil = new HttpClientUtil();
+		Map<String, String> head = new HashMap<String, String>();
+		int port = SuperDispatcherServlet.getlocalPort();
+		head.put("referer", "backend/" + port);
+		clientUtil.setHttpSetting(head);
+		clientUtil.setTimeOut(30000);
+		String retJson = clientUtil.doHttpPost(MessageFormat.format(this.apiServer, apiCode, Constant.INNER_API_SIGN), paramMap);
+		return retJson;
+	}
+
+	/**
+	 * 调用API并输出json
+	 * 
+	 * @param ApiMethodEnum
+	 *            API FUNCTION CODE
+	 * @param appendMap
+	 *            附加参数
+	 * @param req
+	 *            http请求
+	 * @param rsp
+	 *            http响应
+	 * @return
+	 * @author Daniel
+	 */
+	protected String callApiAndOutput(BackendApiMethodEnum apiMethodEnum, Map<String, Object> appendMap, HttpServletRequest req, HttpServletResponse rsp) {
+		String retJson = this.callApi(apiMethodEnum, appendMap, req);
+		return WebHelper.outputJson(retJson, rsp);
+	}
+
+	protected String outputApiMsg(BackendApiMethodEnum apiMethodEnum, boolean isSuccess, String msg, HttpServletResponse rsp) {
+		Map<String, Object> msgMap = new HashMap<String, Object>();
+		msgMap.put("isSuccess", isSuccess);
+		msgMap.put("msg", msg);
+		String retJson = JsonUtil.objectToJson(msgMap, new TypeToken<Map<String, Object>>() {
+		}.getType());
+		return WebHelper.outputJson(retJson, rsp);
+	}
+}

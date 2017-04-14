@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.lefanfs</groupId>
+	<artifactId>lefanfs</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>lefanfs_base</module>
+		<module>lefanfs_apicenter</module>
+		<module>lefanfs_backend</module>
+		<module>lefanfs_task</module>
+	</modules>
+	<properties>
+		<deploy.mode>dev</deploy.mode>
+		<base.version>0.0.15</base.version>
+		<spring.version>4.2.7.RELEASE</spring.version>
+	</properties>
+	<repositories>
+		<repository>
+			<id>local_public</id>
+			<name>local public mirror.</name>
+			<url>http://115.159.62.18:8081/nexus/content/groups/public/</url>
+		</repository>
+		<!-- <repository>
+			<id>oschina</id>
+			<name>oschina central mirror.</name>
+			<url>http://maven.oschina.net/content/groups/public/</url>
+		</repository>
+		<repository>
+			<id>jboss</id>
+			<name>jboss central mirror.</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>ibiblio</id>
+			<name>ibiblio central mirror.</name>
+			<url>http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
+		</repository>
+		<repository>
+			<id>spring-libs-snapshot</id>
+			<name>spring snapshot mirror.</name>
+			<url>https://repo.spring.io/libs-snapshot</url>
+		</repository>	-->
+	</repositories>
+</project>

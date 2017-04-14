@@ -1,0 +1,8 @@
+########api config###########
+api.server=http://127.0.0.1:8180/apicenter/{0}/{1}
+####api.server=http://127.0.0.1:8180/lefanfs_apicenter-dev/{0}/{1}
+api.key=98dba382bc9de1579f2e84d575608eda
+api.secert=95cecbfa4fb491957186a5a609ec25fa
+
+####### cache server ##############
+memcache.cache.server=

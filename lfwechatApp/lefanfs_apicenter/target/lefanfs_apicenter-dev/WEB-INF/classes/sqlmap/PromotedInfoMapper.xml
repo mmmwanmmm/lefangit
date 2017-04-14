@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lefanfs.apicenter.dao.PromotedInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.lefanfs.apicenter.model.PromotedInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="promoter_id" property="promoterId" jdbcType="INTEGER" />
+    <result column="promoter_name" property="promoterName" jdbcType="VARCHAR" />
+    <result column="promoter_type" property="promoterType" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="customer_img" property="customerImg" jdbcType="VARCHAR" />
+    <result column="customer_desc" property="customerDesc" jdbcType="VARCHAR" />
+    <result column="customer_text" property="customerText" jdbcType="VARCHAR" />
+    <result column="customer_business_card" property="customerBusinessCard" jdbcType="VARCHAR" />
+    <result column="customer_state" property="customerState" jdbcType="INTEGER" />
+    <result column="customer_phone" property="customerPhone" jdbcType="INTEGER" />
+    <result column="account_state" property="accountState" jdbcType="INTEGER" />
+    <result column="account_img" property="accountImg" jdbcType="VARCHAR" />
+    <result column="customer_wechatid" property="customerWechatid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, promoter_id, promoter_name, promoter_type, customer_id, customer_name, create_time, 
+    customer_img, customer_desc, customer_text, customer_business_card, customer_state,customer_phone,
+    account_state,account_img,customer_wechatid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from promoted_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from promoted_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lefanfs.apicenter.model.PromotedInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into promoted_info (promoter_id, promoter_name, promoter_type, 
+      customer_id, customer_name, create_time, 
+      customer_img, customer_desc, customer_text, 
+      customer_business_card, customer_state, customer_phone,account_state,account_img,customer_wechatid)
+    values (#{promoterId,jdbcType=INTEGER}, #{promoterName,jdbcType=VARCHAR}, #{promoterType,jdbcType=INTEGER}, 
+      #{customerId,jdbcType=INTEGER}, #{customerName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{customerImg,jdbcType=VARCHAR}, #{customerDesc,jdbcType=VARCHAR}, #{customerText,jdbcType=VARCHAR}, 
+      #{customerBusinessCard,jdbcType=VARCHAR}, #{customerState,jdbcType=INTEGER},#{customerPhone,jdbcType=VARCHAR},
+      #{accountState,jdbcType=INTEGER}, #{accountImg,jdbcType=INTEGER}, #{customerWechatid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lefanfs.apicenter.model.PromotedInfo" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into promoted_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="promoterId != null" >
+        promoter_id,
+      </if>
+      <if test="promoterName != null" >
+        promoter_name,
+      </if>
+      <if test="promoterType != null" >
+        promoter_type,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="customerImg != null" >
+        customer_img,
+      </if>
+      <if test="customerDesc != null" >
+        customer_desc,
+      </if>
+      <if test="customerText != null" >
+        customer_text,
+      </if>
+      <if test="customerBusinessCard != null" >
+        customer_business_card,
+      </if>
+      <if test="customerState != null" >
+        customer_state,
+      </if>
+      <if test="customerPhone != null" >
+        customer_phone,
+      </if>
+      <if test="accountState != null" >
+        account_state,
+      </if>
+      <if test="accountImg != null" >
+        account_img,
+      </if>
+      <if test="customerWechatid != null" >
+        customer_wechatid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="promoterId != null" >
+        #{promoterId,jdbcType=INTEGER},
+      </if>
+      <if test="promoterName != null" >
+        #{promoterName,jdbcType=VARCHAR},
+      </if>
+      <if test="promoterType != null" >
+        #{promoterType,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerImg != null" >
+        #{customerImg,jdbcType=VARCHAR},
+      </if>
+      <if test="customerDesc != null" >
+        #{customerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="customerText != null" >
+        #{customerText,jdbcType=VARCHAR},
+      </if>
+      <if test="customerBusinessCard != null" >
+        #{customerBusinessCard,jdbcType=VARCHAR},
+      </if>
+      <if test="customerState != null" >
+        #{customerState,jdbcType=INTEGER},
+      </if>
+      <if test="customerPhone != null" >
+        #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="accountState != null" >
+        #{accountState,jdbcType=INTEGER},
+      </if>
+      <if test="accountImg != null" >
+        #{accountImg,jdbcType=VARCHAR},
+      </if>
+      <if test="customerWechatid != null" >
+        #{customerWechatid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lefanfs.apicenter.model.PromotedInfo" >
+    update promoted_info
+    <set >
+      <if test="promoterId != null" >
+        promoter_id = #{promoterId,jdbcType=INTEGER},
+      </if>
+      <if test="promoterName != null" >
+        promoter_name = #{promoterName,jdbcType=VARCHAR},
+      </if>
+      <if test="promoterType != null" >
+        promoter_type = #{promoterType,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerImg != null" >
+        customer_img = #{customerImg,jdbcType=VARCHAR},
+      </if>
+      <if test="customerDesc != null" >
+        customer_desc = #{customerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="customerText != null" >
+        customer_text = #{customerText,jdbcType=VARCHAR},
+      </if>
+      <if test="customerBusinessCard != null" >
+        customer_business_card = #{customerBusinessCard,jdbcType=VARCHAR},
+      </if>
+      <if test="customerState != null" >
+        customer_state = #{customerState,jdbcType=INTEGER},
+      </if>
+      <if test="customerPhone != null" >
+        customer_phone = #{customerPhone,jdbcType=VARCHAR},
+      </if>
+        <if test="accountState != null" >
+            account_state = #{accountState,jdbcType=INTEGER},
+        </if>
+        <if test="accountImg != null" >
+            account_img = #{accountImg,jdbcType=VARCHAR},
+        </if>
+        <if test="customerWechatid != null" >
+            customer_wechatid = #{customerWechatid,jdbcType=VARCHAR},
+        </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lefanfs.apicenter.model.PromotedInfo" >
+    update promoted_info
+    set promoter_id = #{promoterId,jdbcType=INTEGER},
+      promoter_name = #{promoterName,jdbcType=VARCHAR},
+      promoter_type = #{promoterType,jdbcType=INTEGER},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      customer_img = #{customerImg,jdbcType=VARCHAR},
+      customer_desc = #{customerDesc,jdbcType=VARCHAR},
+      customer_text = #{customerText,jdbcType=VARCHAR},
+      customer_business_card = #{customerBusinessCard,jdbcType=VARCHAR},
+      customer_state = #{customerState,jdbcType=INTEGER},
+      customer_phone = #{customerPhone,jdbcType=VARCHAR},
+      account_state = #{accountState,jdbcType=INTEGER},
+      account_img = #{accountImg,jdbcType=VARCHAR},
+      customer_wechatid = #{customerWechatid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectPromotedInfoList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from promoted_info
+        where 1=1
+        <if test="promoterName != null" >
+           and promoter_name = #{promoterName,jdbcType=VARCHAR}
+        </if>
+        <if test="promoterId != null" >
+            and  promoter_id = #{promoterId,jdbcType=INTEGER}
+        </if>
+
+        order by id  asc,create_time desc
+        limit #{pageIndex},#{pageSize}
+    </select>
+    <select id="selectPromotedInfoByParam" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from promoted_info
+        where customer_id = #{customerId,jdbcType=INTEGER}
+        limit 1
+    </select>
+</mapper>

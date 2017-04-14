@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lefanfs.apicenter.dao.SysMenuMapper">
+	<resultMap id="BaseResultMap" type="com.lefanfs.apicenter.model.SysMenu">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+		<result column="menu_summary" property="menuSummary" jdbcType="VARCHAR" />
+		<result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+		<result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="INTEGER" />
+		<result column="depth" property="depth" jdbcType="SMALLINT" />
+		<result column="is_show" property="isShow" jdbcType="SMALLINT" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="is_delete" property="isDelete" jdbcType="SMALLINT" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, menu_name,menu_summary, menu_code, menu_url, pid,depth,is_show, sort, is_delete
+	</sql>
+
+	<select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menu
+		where is_delete = 0
+	</select>
+
+	<select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(1) from sys_menu
+		where is_delete = 0
+	</select>
+
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from sys_menu
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		update sys_menu set is_delete = 1 where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<insert id="insert" parameterType="java.util.Map">
+		insert into sys_menu (
+			menu_name,menu_summary,menu_code, menu_url, pid, depth,sort, is_show
+		)
+		values (
+			#{menuName,jdbcType=VARCHAR},#{menuSummary,jdbcType=VARCHAR}, #{menuCode,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR},
+			#{pid,jdbcType=INTEGER},#{depth,jdbcType=SMALLINT}, #{sort,jdbcType=INTEGER},
+			#{isShow,jdbcType=SMALLINT}
+		)
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="java.util.Map">
+		update sys_menu
+		<set>
+			<if test="menuName!=null">
+				menu_name = #{menuName,jdbcType=VARCHAR},
+			</if>
+			<if test="menuSummary!=null">
+				menu_summary = #{menuSummary,jdbcType=VARCHAR},
+			</if>
+			<if test="menuCode!=null">
+				menu_code = #{menuCode,jdbcType=VARCHAR},
+			</if>
+			<if test="menuUrl!=null">
+				menu_url = #{menuUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="pid!=null">
+				pid = #{pid,jdbcType=INTEGER},
+			</if>
+			<if test="sort!=null">
+				sort = #{sort,jdbcType=INTEGER},
+			</if>
+			<if test="isShow!=null">
+				is_show = #{isShow,jdbcType=SMALLINT}
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectTreeList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select id, menu_name,menu_summary, menu_code, menu_url, pid,depth,is_show
+		from sys_menu
+		where is_delete = 0
+		<if test="isShow!=null">
+			and is_show = #{isShow,jdbcType=SMALLINT}
+		</if>
+		<if test="userId!=null">
+			and id IN(
+			select rm.menu_id from sys_user_role ur join sys_role_menu rm on ur.role_id = rm.role_id where ur.user_id = #{userId,jdbcType=INTEGER}
+			)
+		</if>
+		order by pid,sort
+	</select>
+
+</mapper>

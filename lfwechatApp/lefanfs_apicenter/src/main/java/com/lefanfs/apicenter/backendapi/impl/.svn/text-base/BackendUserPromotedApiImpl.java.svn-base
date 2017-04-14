@@ -1,0 +1,153 @@
+package com.lefanfs.apicenter.backendapi.impl;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.lefanfs.apicenter.backendapi.BackendUserPromotedApi;
+import com.lefanfs.apicenter.dao.PromotedInfoMapper;
+import com.lefanfs.apicenter.dao.UserInfoMapper;
+import com.lefanfs.apicenter.dao.UserPromotedMapper;
+import com.lefanfs.apicenter.model.PromotedInfo;
+import com.lefanfs.apicenter.model.UserInfo;
+import com.lefanfs.apicenter.model.UserPromoted;
+import com.lefanfs.apicenter.model.UserScenarios;
+import com.lefanfs.apicenter.service.impl.BaseServiceImpl;
+import com.lefanfs.apicenter.util.HttpClientUtils;
+import com.lefanfs.apicenter.util.QrUtils;
+import com.lefanfs.base.annotations.ApiMethod;
+import com.lefanfs.base.annotations.ApiParam;
+import com.lefanfs.base.annotations.ApiService;
+import com.lefanfs.base.dto.ApiRequest;
+import com.lefanfs.base.dto.ApiResponse;
+import com.lefanfs.base.enums.ApiMsgEnum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by Jani on 2017/3/15.
+ */
+@Service
+@ApiService(descript = "后台推广用户认证管理相关API")
+public class BackendUserPromotedApiImpl  extends BaseServiceImpl implements BackendUserPromotedApi {
+
+    @Autowired
+    private UserPromotedMapper userPromotedMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+
+    @Autowired
+    private PromotedInfoMapper promotedInfoMapper;
+
+    @Value("${mpwx_appId}")
+    private String mpwxAppId;
+
+    @Value("${mpwx_secret}")
+    private String mpwxSecret;
+
+    /**
+     * 推广认证用户列表
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "推广认证用户列表", value = "backend-user-promoted-list", apiParams = { @ApiParam(descript = "当前第几页", name = "page")})
+    @Override
+    public ApiResponse<List<UserPromoted>> getBkUserPromotedList(ApiRequest apiReq) {
+        Integer page = apiReq.getInt("page");
+        int pageSize = 10;
+        if (page==null || page<1){
+            page = 1;
+        }
+        page =(page - 1) * pageSize;
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("pageIndex",page);
+        paramMap.put("pageSize",pageSize);
+        List<UserPromoted> userPromoteds=userPromotedMapper.selectUserPromotedByParam(paramMap);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,userPromoteds==null?0:userPromoteds.size(),userPromoteds);
+    }
+    /**
+     * 推广认证用户状态修改
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "推广认证用户状态修改", value = "backend-update-user-promoted", apiParams = { @ApiParam(descript = "贷款申请ID", name = "id"),
+            @ApiParam(descript = "推广用户认证状态（*）", name = "state")})
+    @Override
+    public ApiResponse<UserPromoted> updateBkUserPromotedById(ApiRequest apiReq) throws IOException {
+        Long id = apiReq.getLong("id");
+        Integer  state = apiReq.getInt("state");
+        UserPromoted userPromoted=userPromotedMapper.selectByPrimaryKey(id);
+        userPromoted.setState(state);
+        if(state==2){
+            String qrCode=getQrCode(userPromoted.getUserId().toString());
+            userPromoted.setPromotedQrcode(qrCode);
+            Map retMap = new HashMap();
+            retMap.put("userId",userPromoted.getUserId());
+            UserInfo userInfo=this.userInfoMapper.selectUserInfoByUserId(retMap);
+            if(userInfo!=null){
+                userInfo.setPromotedQrcode(qrCode);
+                userInfo.setIsPromoter(1);
+                //修改二维码
+                userInfoMapper.updateByPrimaryKeySelective(userInfo);
+
+            }
+        }
+        int result = this.userPromotedMapper.updateByPrimaryKeySelective(userPromoted);
+        if(result>0){
+            return new ApiResponse(ApiMsgEnum.SUCCESS);
+        }else{
+            return new ApiResponse(ApiMsgEnum.FAIL);
+        }
+    }
+
+    public String getQrCode(String userId) throws IOException {
+        //
+        String  path="/pages/user/userLogin?userId=1";
+        String url1="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+mpwxAppId+"&secret="+mpwxSecret+"";
+        Map<String,String> map=new HashMap<String,String>();
+        String str = HttpClientUtils.httpPost(url1, map);
+        JSONObject jsonObject = JSON.parseObject(str);
+        String access_token = jsonObject.get("access_token").toString();
+        String data="{\"path\": "+path+", \"width\": 430}";
+        String url2="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token="+access_token;
+        Map<String,String> map2=new HashMap<String,String>();
+        map2.put("data","{'path': "+path+", 'width': '430'}");
+        String str2 = HttpClientUtils.httpPost(url2, map2);
+        JSONObject jsonObject2 = JSON.parseObject(str2);
+        String qrCode = jsonObject2.toJSONString();
+        System.out.println("qrCode："+qrCode);
+        return qrCode;
+    }
+
+    //
+    /**
+     * 推广记录列表查询
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "推广记录列表查询", value = "backend-promoted-info-list", apiParams = { @ApiParam(descript = "当前第几页", name = "page"),
+            @ApiParam(descript = "用户名", name = "userName")})
+    @Override
+    public ApiResponse<List<PromotedInfo>> getBkPromotedInfoList(ApiRequest apiReq) {
+        Integer page = apiReq.getInt("page");
+        String userName = apiReq.getString("userName");
+        int pageSize = 10;
+        if (page==null || page<1){
+            page = 1;
+        }
+        page =(page - 1) * pageSize;
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("pageIndex",page);
+        paramMap.put("pageSize",pageSize);
+        paramMap.put("userName",userName);
+        List<PromotedInfo> promotedInfos=promotedInfoMapper.selectPromotedInfoList(paramMap);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,promotedInfos==null?0:promotedInfos.size(),promotedInfos);
+    }
+}

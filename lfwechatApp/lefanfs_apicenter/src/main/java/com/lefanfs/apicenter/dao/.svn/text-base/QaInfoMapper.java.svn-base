@@ -1,0 +1,22 @@
+package com.lefanfs.apicenter.dao;
+
+import com.lefanfs.apicenter.model.QaInfo;
+
+import java.util.List;
+import java.util.Map;
+
+public interface QaInfoMapper {
+    int deleteByPrimaryKey(Long id);
+
+    int insert(QaInfo record);
+
+    int insertSelective(QaInfo record);
+
+    QaInfo selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(QaInfo record);
+
+    int updateByPrimaryKey(QaInfo record);
+
+   List<QaInfo> selectQaInfoList(Map<String, Object> paramMap);
+}

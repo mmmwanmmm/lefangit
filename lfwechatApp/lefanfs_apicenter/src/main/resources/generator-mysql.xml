@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- classPathEntry:数据库的JDBC驱动的jar包地址,可以通过maven对应的插件里面的jar包作为驱动支持 -->
+    <!--<classPathEntry location="D:\dbjars\mysql\mysql-connector-java-5.1.17-bin.jar"/>-->
+
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+
+        <!-- 是否去除自动生成的注释 true:是,false:否 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <!-- MSSQL： driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+            connectionURL＝"jdbc:sqlserver://localhost:3306;DatabaseName=ibatis" -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://rm-2zeyrr7l1a4cb2q75o.mysql.rds.aliyuncs.com:3306/lfpro" userId="jason"
+                        password="yzx@1238">
+        </jdbcConnection>
+
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL 和
+            NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!---Java 实体的生成 -->
+        <!-- targetProject:自动生成代码的位置 -->
+        <javaModelGenerator targetPackage="com.bandex.apicenter.model"
+                            targetProject="/data/doc/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="fasle"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="false"/>
+        </javaModelGenerator>
+
+
+        <!--sqlMapper XML文件的生成信息，包括生成路径等 -->
+        <sqlMapGenerator targetPackage="sqlmap"
+                         targetProject="/data/doc/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!--应用接口的生成信息 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.bandex.apicenter.dao"    implementationPackage="com.bandex.apicenter.dao.impl"
+                             targetProject="/data/doc/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="methodNameCalculator" value="extended"/>
+        </javaClientGenerator>
+
+        <!-- tableName:用于自动生成代码的数据库表；domainObjectName:对应于数据库表的javaBean类名 -->
+                 <!--用户登录表 -->
+                <!--<table schema="common_achievement" tableName="common_achievement" domainObjectName="CommonAchievement"   enableInsert="true"-->
+                       <!--enableSelectByPrimaryKey="true"-->
+                       <!--enableSelectByExample="false"-->
+                       <!--enableUpdateByPrimaryKey="true"-->
+                       <!--enableDeleteByPrimaryKey="true"-->
+                       <!--enableDeleteByExample="false"-->
+                       <!--enableCountByExample="false"-->
+                       <!--enableUpdateByExample="false"  modelType="flat" >-->
+                    <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+                <!--</table>-->
+        <!--<table schema="common_area" tableName="common_area" domainObjectName="CommonArea"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="area_id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="common_enum" tableName="common_enum" domainObjectName="CommonEnum"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="common_hospital_info" tableName="common_hospital_info" domainObjectName="CommonHospitalInfo"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="common_information" tableName="common_information" domainObjectName="CommonInformation"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="common_product" tableName="common_product" domainObjectName="CommonProduct"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="common_sport_project" tableName="common_sport_project" domainObjectName="CommonSportProject"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <table schema="common_integral_basic" tableName="common_integral_basic" domainObjectName="CommonIntegralBasic"   enableInsert="true"
+               enableSelectByPrimaryKey="true"
+               enableSelectByExample="false"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true"
+               enableDeleteByExample="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"  modelType="flat" >
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <!--<table schema="event_user_ref" tableName="event_user_ref" domainObjectName="EventUserRef"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="friend_apply" tableName="friend_apply" domainObjectName="FriendApply"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="order_info" tableName="order_info" domainObjectName="OrderInfo"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="order_item" tableName="order_item" domainObjectName="OrderItem"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="order_return" tableName="order_return" domainObjectName="OrderReturn"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="order_return_item" tableName="order_return_item" domainObjectName="OrderReturnItem"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="order_shopping_cart" tableName="order_shopping_cart" domainObjectName="OrderShoppingCart"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_ad" tableName="sys_ad" domainObjectName="SysAd"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_ad_info" tableName="sys_ad_info" domainObjectName="SysAdInfo"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_app_qrcode" tableName="sys_app_qrcode" domainObjectName="SysAppQrcode"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_menu" tableName="sys_menu" domainObjectName="SysMenu"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_resourse" tableName="sys_resourse" domainObjectName="SysResourse"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="resource_id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_role" tableName="sys_role" domainObjectName="SysRole"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="role_id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_role_menu" tableName="sys_role_menu" domainObjectName="SysRoleMenu"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_role_resourse_ref" tableName="sys_role_resourse_ref" domainObjectName="SysRoleMenuResourseRef"   enableInsert="true"-->
+                       <!--enableSelectByPrimaryKey="true"-->
+                       <!--enableSelectByExample="false"-->
+                       <!--enableUpdateByPrimaryKey="true"-->
+                       <!--enableDeleteByPrimaryKey="true"-->
+                       <!--enableDeleteByExample="false"-->
+                       <!--enableCountByExample="false"-->
+                       <!--enableUpdateByExample="false"  modelType="flat" >-->
+        <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+    <!--</table>-->
+        <!--<table schema="sys_user" tableName="sys_user" domainObjectName="SysUser"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_user_role" tableName="sys_user_role" domainObjectName="SysUserRole"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="sys_user_role_ref" tableName="sys_user_role_ref" domainObjectName="SysUserRoleRef"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_achievement" tableName="user_achievement" domainObjectName="UserAchievement"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_address" tableName="user_address" domainObjectName="UserAddress"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_comment" tableName="user_comment" domainObjectName="UserComment"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_friend" tableName="user_friend" domainObjectName="UserFriend"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--&lt;!&ndash;<generatedKey column="user_id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table schema="user_group" tableName="user_group" domainObjectName="UserGroup"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="group_id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_group_ref" tableName="user_group_ref" domainObjectName="UserGroupRef"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--&lt;!&ndash;<generatedKey column="group_id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table schema="user_info" tableName="user_info" domainObjectName="UserInfo"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="user_id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_integration_detail" tableName="user_integration_detail" domainObjectName="UserIntegrationDetail"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_login" tableName="user_login" domainObjectName="UserLogin"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="user_id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_message" tableName="user_message" domainObjectName="UserMessage"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_sport_lbs" tableName="user_sport_lbs" domainObjectName="UserSportLbs"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_sport_ref" tableName="user_sport_ref" domainObjectName="UserSportRef"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="user_work_num" tableName="user_work_num" domainObjectName="userWorkNum"   enableInsert="true"-->
+                <!--enableSelectByPrimaryKey="true"-->
+                <!--enableSelectByExample="false"-->
+                <!--enableUpdateByPrimaryKey="true"-->
+                <!--enableDeleteByPrimaryKey="true"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false"  modelType="flat" >-->
+                <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+                <!--</table>-->
+        <!--<table schema="user_work_num_comment" tableName="user_work_num_comment" domainObjectName="userWorkNumComment"   enableInsert="true"-->
+               <!--enableSelectByPrimaryKey="true"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"  modelType="flat" >-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+            </context>
+        </generatorConfiguration>
+

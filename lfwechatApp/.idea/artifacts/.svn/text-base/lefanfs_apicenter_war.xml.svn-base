@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="lefanfs_apicenter:war">
+    <output-path>$PROJECT_DIR$/lefanfs_apicenter/target</output-path>
+    <root id="archive" name="lefanfs_apicenter-dev.war">
+      <element id="artifact" artifact-name="lefanfs_apicenter:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,102 @@
+package com.lefanfs.apicenter.appapi.impl;
+
+import com.lefanfs.base.annotations.ApiMethod;
+import com.lefanfs.base.annotations.ApiParam;
+import com.lefanfs.base.annotations.ApiService;
+import com.lefanfs.base.dto.ApiRequest;
+import com.lefanfs.base.dto.ApiResponse;
+import com.lefanfs.base.enums.ApiMsgEnum;
+import com.lefanfs.apicenter.appapi.UserCommentApi;
+import com.lefanfs.apicenter.dao.UserCommentMapper;
+import com.lefanfs.apicenter.dao.UserInfoMapper;
+import com.lefanfs.apicenter.dto.UserCommentDto;
+import com.lefanfs.apicenter.model.UserComment;
+import com.lefanfs.apicenter.model.UserInfo;
+import com.lefanfs.apicenter.service.impl.BaseServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.*;
+
+/**
+ * Created by fanshuai on 16/11/21.
+ */
+@Service
+@ApiService(descript = "留言管理")
+public class UserCommentApiImpl extends BaseServiceImpl implements UserCommentApi {
+
+    @Autowired
+    private UserCommentMapper userCommentMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+
+    @ApiMethod(needLogin = true, descript = "留言", value = "user-comment-add",
+            apiParams = {@ApiParam(name = "user_token",descript = "当前用户token(*)"),
+                    @ApiParam(name = "comment",descript = "留言内容(*)") ,
+                    @ApiParam(name = "parentCommentid",descript = "回复的留言id可选(*)"),
+                    @ApiParam(name = "type",descript = "留言类型(*)"),
+                    @ApiParam(name = "commentTo",descript = "留言来源（1:小程序，2：其他）(*)") })
+    @Override
+    public ApiResponse addComment(ApiRequest apiReq) {
+        Long userId=apiReq.getCurrentUserId();
+        String comment = apiReq.getString("comment");
+        Long parentCommentId=apiReq.getLong("parentCommentid");
+        Integer commentType = apiReq.getInt("type");
+        Integer commentTo = apiReq.getInt("commentTo");
+        UserInfo userInfo=userInfoMapper.selectByPrimaryKey(userId);
+        UserComment userComment=new UserComment();
+        userComment.setUserId(userId);
+        userComment.setNickName(userInfo.getNickName());
+        userComment.setComment(comment);
+        userComment.setReplyParentId(parentCommentId);
+        userComment.setCreateTime(new Date());
+        userComment.setCreateId(userId);
+        userComment.setDeleteFlag(0);
+        userComment.setCommentType(commentType);
+        userComment.setCommentTo(commentTo);
+        int userCommentId=userCommentMapper.insert(userComment);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,1,userCommentId);
+    }
+
+    @ApiMethod(needLogin = true,descript = "查询留言", value = "user-comment-myList",
+            apiParams = {@ApiParam(name = "user_token",descript = "当前用户token(*)"),
+                    @ApiParam(name = "page",descript = "分页页码1开始") ,
+                    @ApiParam(name = "pageSize",descript = "1页多少条") })
+    @Override
+    public ApiResponse myCommentList(ApiRequest apiReq) {
+        Map retMap = new HashMap();
+        Long userId=apiReq.getCurrentUserId();
+        UserInfo userInfo=userInfoMapper.selectByPrimaryKey(userId);
+        userInfo.setImg(this.getCdnUrl(null,userInfo.getImg(),null));
+        retMap.put("userInfo",userInfo);
+        List<UserComment> userCommentList=userCommentMapper.selectByUserIdWithOutReply(userId,getPageIndex(apiReq),getAppPageSize(apiReq));
+        if (CollectionUtils.isEmpty(userCommentList)){
+            return new ApiResponse(ApiMsgEnum.SUCCESS);
+        }
+        List<Long> userCommentIdList = new ArrayList<>();
+        for (UserComment userComment:userCommentList){
+            userCommentIdList.add(userComment.getId());
+        }
+        Map<Long,List<UserCommentDto>> commentAndReplyList = new HashMap();
+        List<UserComment> userCommentReplyList=userCommentMapper.selectByParentIdList(userCommentIdList);
+        if (!CollectionUtils.isEmpty(userCommentReplyList)){
+            for (UserComment userComment:userCommentReplyList){
+                List<UserCommentDto> replyList = commentAndReplyList.get(userComment.getReplyParentId());
+                if (replyList==null){
+                    replyList=new ArrayList<>();
+                    commentAndReplyList.put(userComment.getReplyParentId(), replyList);
+                }
+                replyList.add(UserCommentDto.getFromUserCommentEntity(userComment));
+            }
+        }
+        List<UserCommentDto> dtoList = new ArrayList<>();
+        for (UserComment userComment:userCommentList){
+            UserCommentDto dto = UserCommentDto.getFromUserCommentEntity(userComment);
+            dto.setReplyCommentDto(commentAndReplyList.get(userComment.getId()));
+            dtoList.add(dto);
+        }
+        retMap.put("commentList",dtoList);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,1,retMap);
+    }
+}

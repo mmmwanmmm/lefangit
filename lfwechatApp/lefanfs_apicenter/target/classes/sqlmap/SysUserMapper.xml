@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lefanfs.apicenter.dao.SysUserMapper">
+	<resultMap id="BaseResultMap" type="com.lefanfs.apicenter.model.SysUser">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="last_login" property="lastLogin" jdbcType="TIMESTAMP" />
+		<result column="is_superuser" property="isSuperuser" jdbcType="BIT" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="first_name" property="firstName" jdbcType="VARCHAR" />
+		<result column="last_name" property="lastName" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="regist_type" property="registType" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="date_joined" property="dateJoined" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="new_password" property="newPassword" jdbcType="VARCHAR" />
+		<result column="token" property="token" jdbcType="VARCHAR" />
+		<result column="realname" property="realname" jdbcType="VARCHAR" />
+		<result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+		<result column="login_count" property="loginCount" jdbcType="INTEGER" />
+		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, password, last_login, is_superuser, username,
+		first_name, last_name, email, regist_type,
+		status, date_joined, type,
+		new_password, realname, last_login_ip, login_count, nick_name, phone
+	</sql>
+	<select id="selectUser" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		u.*
+		from sys_user u
+		where delete_flag=0
+		<choose>
+			<when test="id != null">
+				and u.id=#{id}
+			</when>
+			<when test="username != null">
+				and UPPER(u.username)=UPPER(cast(#{username} as char))
+			</when>
+			<otherwise>
+				and 1=0
+			</otherwise>
+		</choose>
+	</select>
+	<select id="countByUsername" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(1) from sys_user where delete_flag=0 and
+		UPPER(username)=UPPER(#{username})
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		update sys_user
+		set delete_flag=1 where id = #{id,jdbcType=INTEGER}
+	</update>
+	<insert id="insert" parameterType="com.lefanfs.apicenter.model.SysUser">
+		insert into sys_user (
+			password, last_login,
+			is_superuser,
+			username,
+			first_name,
+			last_name, email, regist_type,
+			status, date_joined, type,
+			new_password,
+			realname, last_login_ip, login_count,
+			nick_name,
+			default_password,
+			phone
+		)
+		values (
+			#{password,jdbcType=VARCHAR}, #{lastLogin,jdbcType=TIMESTAMP},
+			#{isSuperuser,jdbcType=BIT},
+			#{username,jdbcType=VARCHAR},
+			#{firstName,jdbcType=VARCHAR},
+			#{lastName,jdbcType=VARCHAR},
+			#{email,jdbcType=VARCHAR}, #{registType,jdbcType=VARCHAR},
+			#{status,jdbcType=VARCHAR}, #{dateJoined,jdbcType=TIMESTAMP},
+			#{type,jdbcType=VARCHAR}, #{newPassword,jdbcType=VARCHAR},
+			#{realname,jdbcType=VARCHAR}, #{lastLoginIp,jdbcType=VARCHAR},
+			#{loginCount,jdbcType=INTEGER},
+			#{nickName,jdbcType=VARCHAR},
+			#{defaultPassword,jdbcType=VARCHAR},
+			#{phone,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lefanfs.apicenter.model.SysUser">
+		update sys_user
+		<set>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="lastLogin != null">
+				last_login = #{lastLogin,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isSuperuser != null">
+				is_superuser = #{isSuperuser,jdbcType=BIT},
+			</if>
+			<if test="firstName != null">
+				first_name = #{firstName,jdbcType=VARCHAR},
+			</if>
+			<if test="lastName != null">
+				last_name = #{lastName,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="registType != null">
+				regist_type = #{registType,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="newPassword != null">
+				new_password = #{newPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="realname != null">
+				realname = #{realname,jdbcType=VARCHAR},
+			</if>
+			<if test="lastLoginIp != null">
+				last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+			</if>
+			<if test="loginCount != null">
+				login_count = #{loginCount,jdbcType=INTEGER},
+			</if>
+			<if test="loginCountPlus != null">
+				login_count = login_count+1,
+			</if>
+			<if test="nickName != null">
+				nick_name = #{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="fakeFlag != null">
+				fake_flag = #{fakeFlag,jdbcType=INTEGER},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="countListForBackend" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(1)
+		from sys_user u
+		where u.delete_flag=0 and
+		u.type='backend' and UPPER(u.username)!='ROOT'
+	</select>
+	<select id="selectListForBackend" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		u.id,
+		u.realname,
+		u.username,
+		u.last_login,
+		u.last_login_ip,
+		u.login_count,
+		u.date_joined,
+		u.status
+		from sys_user u
+		where
+		u.delete_flag=0 and u.type='backend' and UPPER(u.username)!='ROOT'
+		order by
+		u.date_joined desc
+		<if test="pageSize != null and pageSize != '' and page != null and page != ''">
+			limit #{pageSize} offset ${(page-1) * pageSize}
+		</if>
+		<if test="pageSize != null and pageSize != '' and (page == null or page=='')">
+			limit #{pageSize}
+		</if>
+	</select>
+</mapper>

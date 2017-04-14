@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lefanfs.apicenter.dao.UserLoginMapper">
+	<resultMap id="BaseResultMap" type="com.lefanfs.apicenter.model.UserLogin">
+		<id column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="user_telphone" property="userTelphone" jdbcType="VARCHAR" />
+		<result column="wechat_id" property="wechatId" jdbcType="VARCHAR" />
+		<result column="weibo_id" property="weiboId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, user_telphone, wechat_id, weibo_id, create_time, modify_time
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from user_login
+		where user_id = #{userId,jdbcType=BIGINT}
+	</select>
+	<select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from user_login
+		where user_telphone = #{user_telphone,jdbcType=VARCHAR} limit 1
+	</select>
+	<select id="selectByWechatId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from user_login
+		where wechat_id = #{wechat_id,jdbcType=VARCHAR} limit 1
+	</select>
+	<select id="selectByWeiboId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from user_login
+		where weibo_id = #{weibo_id,jdbcType=VARCHAR} limit 1
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from user_login
+		where user_id = #{userId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.lefanfs.apicenter.model.UserLogin">
+		<selectKey resultType="java.lang.Long" keyProperty="userId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into user_login (user_telphone, wechat_id, weibo_id,
+		create_time, modify_time)
+		values (#{userTelphone,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, #{weiboId,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lefanfs.apicenter.model.UserLogin">
+		<selectKey resultType="java.lang.Long" keyProperty="userId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into user_login
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userTelphone != null">
+				user_telphone,
+			</if>
+			<if test="wechatId != null">
+				wechat_id,
+			</if>
+			<if test="weiboId != null">
+				weibo_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="modifyTime != null">
+				modify_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userTelphone != null">
+				#{userTelphone,jdbcType=VARCHAR},
+			</if>
+			<if test="wechatId != null">
+				#{wechatId,jdbcType=VARCHAR},
+			</if>
+			<if test="weiboId != null">
+				#{weiboId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null">
+				#{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lefanfs.apicenter.model.UserLogin">
+		update user_login
+		<set>
+			<if test="userTelphone != null">
+				user_telphone = #{userTelphone,jdbcType=VARCHAR},
+			</if>
+			<if test="wechatId != null">
+				wechat_id = #{wechatId,jdbcType=VARCHAR},
+			</if>
+			<if test="weiboId != null">
+				weibo_id = #{weiboId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where user_id = #{userId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lefanfs.apicenter.model.UserLogin">
+		update user_login
+		set user_telphone = #{userTelphone,jdbcType=VARCHAR},
+		wechat_id = #{wechatId,jdbcType=VARCHAR},
+		weibo_id = #{weiboId,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+		where user_id = #{userId,jdbcType=BIGINT}
+	</update>
+</mapper>

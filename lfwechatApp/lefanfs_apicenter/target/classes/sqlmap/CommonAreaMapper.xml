@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lefanfs.apicenter.dao.CommonAreaMapper" >
+  <resultMap id="BaseResultMap" type="com.lefanfs.apicenter.model.CommonArea" >
+    <id column="area_id" property="areaId" jdbcType="BIGINT" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="area_type" property="areaType" jdbcType="INTEGER" />
+    <result column="area_shortname" property="areaShortname" jdbcType="VARCHAR" />
+    <result column="area_longname" property="areaLongname" jdbcType="VARCHAR" />
+    <result column="area_order" property="areaOrder" jdbcType="INTEGER" />
+    <result column="long_pinyin" property="longPinyin" jdbcType="VARCHAR" />
+    <result column="short_pinyin" property="shortPinyin" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    area_id, area_name, parent_id, area_type, area_shortname, area_longname, area_order, 
+    long_pinyin, short_pinyin, delete_flag
+  </sql>
+
+  <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from common_area
+    where area_type = #{type,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from common_area
+    where parent_id = #{parentId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from common_area order by area_id asc
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from common_area
+    where area_id = #{areaId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from common_area
+    where area_id = #{areaId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lefanfs.apicenter.model.CommonArea" >
+    <selectKey resultType="java.lang.Long" keyProperty="areaId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into common_area (area_name, parent_id, area_type, 
+      area_shortname, area_longname, area_order, 
+      long_pinyin, short_pinyin, delete_flag
+      )
+    values (#{areaName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{areaType,jdbcType=INTEGER}, 
+      #{areaShortname,jdbcType=VARCHAR}, #{areaLongname,jdbcType=VARCHAR}, #{areaOrder,jdbcType=INTEGER}, 
+      #{longPinyin,jdbcType=VARCHAR}, #{shortPinyin,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lefanfs.apicenter.model.CommonArea" >
+    <selectKey resultType="java.lang.Long" keyProperty="areaId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into common_area
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="areaName != null" >
+        area_name,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="areaType != null" >
+        area_type,
+      </if>
+      <if test="areaShortname != null" >
+        area_shortname,
+      </if>
+      <if test="areaLongname != null" >
+        area_longname,
+      </if>
+      <if test="areaOrder != null" >
+        area_order,
+      </if>
+      <if test="longPinyin != null" >
+        long_pinyin,
+      </if>
+      <if test="shortPinyin != null" >
+        short_pinyin,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="areaName != null" >
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="areaType != null" >
+        #{areaType,jdbcType=INTEGER},
+      </if>
+      <if test="areaShortname != null" >
+        #{areaShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="areaLongname != null" >
+        #{areaLongname,jdbcType=VARCHAR},
+      </if>
+      <if test="areaOrder != null" >
+        #{areaOrder,jdbcType=INTEGER},
+      </if>
+      <if test="longPinyin != null" >
+        #{longPinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="shortPinyin != null" >
+        #{shortPinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lefanfs.apicenter.model.CommonArea" >
+    update common_area
+    <set >
+      <if test="areaName != null" >
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="areaType != null" >
+        area_type = #{areaType,jdbcType=INTEGER},
+      </if>
+      <if test="areaShortname != null" >
+        area_shortname = #{areaShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="areaLongname != null" >
+        area_longname = #{areaLongname,jdbcType=VARCHAR},
+      </if>
+      <if test="areaOrder != null" >
+        area_order = #{areaOrder,jdbcType=INTEGER},
+      </if>
+      <if test="longPinyin != null" >
+        long_pinyin = #{longPinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="shortPinyin != null" >
+        short_pinyin = #{shortPinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where area_id = #{areaId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lefanfs.apicenter.model.CommonArea" >
+    update common_area
+    set area_name = #{areaName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      area_type = #{areaType,jdbcType=INTEGER},
+      area_shortname = #{areaShortname,jdbcType=VARCHAR},
+      area_longname = #{areaLongname,jdbcType=VARCHAR},
+      area_order = #{areaOrder,jdbcType=INTEGER},
+      long_pinyin = #{longPinyin,jdbcType=VARCHAR},
+      short_pinyin = #{shortPinyin,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=INTEGER}
+    where area_id = #{areaId,jdbcType=BIGINT}
+  </update>
+    <select id="selectAreaByAreaIdList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from common_area
+        where 1=1
+        <if test="areaList!=null">
+            and area_id in
+            <foreach item="aredId" index="index" collection="areaList" open="(" separator="," close=")">
+                #{aredId}
+            </foreach>
+        </if>
+    </select>
+</mapper>

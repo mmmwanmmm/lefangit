@@ -1,0 +1,143 @@
+package com.lefanfs.apicenter.backendapi.impl;
+
+import com.lefanfs.apicenter.backendapi.BackendLoanApplicationAPi;
+import com.lefanfs.apicenter.dao.LoanApplicationMapper;
+import com.lefanfs.apicenter.dao.MessageInfoMapper;
+import com.lefanfs.apicenter.dao.PromotedInfoMapper;
+import com.lefanfs.apicenter.dao.UserInfoMapper;
+import com.lefanfs.apicenter.model.LoanApplication;
+import com.lefanfs.apicenter.model.MessageInfo;
+import com.lefanfs.apicenter.model.PromotedInfo;
+import com.lefanfs.apicenter.model.UserInfo;
+import com.lefanfs.apicenter.service.impl.BaseServiceImpl;
+import com.lefanfs.base.annotations.ApiMethod;
+import com.lefanfs.base.annotations.ApiParam;
+import com.lefanfs.base.annotations.ApiService;
+import com.lefanfs.base.dto.ApiRequest;
+import com.lefanfs.base.dto.ApiResponse;
+import com.lefanfs.base.enums.ApiMsgEnum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by Jani on 2017/3/10.
+ */
+@Service
+@ApiService(descript = "后台贷款申请管理API")
+public class BackendLoanApplicationAPiImpl extends BaseServiceImpl implements BackendLoanApplicationAPi {
+
+    @Autowired
+    private LoanApplicationMapper loanApplicationMapper;
+
+    @Autowired
+    private PromotedInfoMapper promotedInfoMapper;
+
+    @Autowired
+    private MessageInfoMapper messageInfoMapper;
+
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+
+
+    /**
+     * 用户贷款申请列表
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "用户贷款申请列表", value = "backend-loan-application-list", apiParams = { @ApiParam(descript = "用户ID", name = "userId"),
+            @ApiParam(descript = "贷款状态", name = "state"),@ApiParam(descript = "贷款申请手机号", name = "userPhone"),@ApiParam(descript = "是否为交通事故", name = "isTrafficAccident")})
+    @Override
+    public ApiResponse<List<LoanApplication>> getBkLoanApplicationList(ApiRequest apiReq) {
+        Integer userId = apiReq.getInt("userId");
+        Integer state = apiReq.getInt("state");
+        String userPhone = apiReq.getString("userPhone");
+        Integer isTrafficAccident = apiReq.getInt("isTrafficAccident");
+        Integer page = apiReq.getInt("page");
+        int pageSize = 10;
+        if (page==null || page<1){
+            page = 1;
+        }
+        List<LoanApplication> loanApplications=loanApplicationMapper.selectLoanApplicationByParam(state,userId,userPhone,isTrafficAccident,(page-1)*pageSize,pageSize);
+        return new ApiResponse(ApiMsgEnum.SUCCESS,loanApplications==null?0:loanApplications.size(),loanApplications);
+    }
+
+    /**
+     * 贷款申请状态修改
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "贷款申请状态修改", value = "backend-update-loan-application", apiParams = { @ApiParam(descript = "贷款申请ID", name = "id"),
+           @ApiParam(descript = "贷款状态", name = "state")})
+    @Override
+    public ApiResponse<LoanApplication> updateBkLoanApplicationById(ApiRequest apiReq) {
+        Long id = apiReq.getLong("id");
+        Integer state = apiReq.getInt("state");
+        LoanApplication loanApplication=this.loanApplicationMapper.selectByPrimaryKey(id);
+        loanApplication.setState(state);
+        int result = this.loanApplicationMapper.updateByPrimaryKeySelective(loanApplication);
+        //添加系统消息状态(1:报案，2：受理.3:驳回，4：申请中，5,：完成)
+       /* Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("userId",loanApplication.getUserId())
+        UserInfo userInfo = this.userInfoMapper.selectUserInfoByUserId(paramMap);*/
+        SimpleDateFormat sdf =   new SimpleDateFormat("yyyy年MM月dd天");
+        String dateStr = sdf.format(loanApplication.getCreateTime());
+        MessageInfo  messageInfo = new MessageInfo();
+        if(state==2){
+            messageInfo.setTitle("贷款申请受理通知");
+            messageInfo.setConent("您好，你于"+dateStr+"申请的关于"+ loanApplication.getUserName()+"的贷款已经受理。请联系客服。");
+        }
+        if(state==3){
+            messageInfo.setTitle("贷款申请驳回通知");
+            messageInfo.setConent("您好，你于"+dateStr+"申请的关于"+ loanApplication.getUserName()+"的贷款已经驳回。请联系客服。");
+        }
+        if(state==4){
+            messageInfo.setTitle("贷款申请变更通知");
+            messageInfo.setConent("您好，你于"+dateStr+"申请的关于"+ loanApplication.getUserName()+"的贷款已经提交申请。");
+        }
+        if(state==5){
+            messageInfo.setTitle("贷款申请完成通知");
+            messageInfo.setConent("您好，你于"+dateStr+"申请的关于"+ loanApplication.getUserName()+"的贷款已经提交完成。");
+        }
+        messageInfo.setSenderId(0);
+        messageInfo.setSenderName("系统消息");
+        messageInfo.setReceiverId(loanApplication.getUserId());
+        messageInfo.setReceiverName(loanApplication.getUserName());
+        messageInfo.setMessageType(1);
+        messageInfo.setSendTime(new Date());
+        messageInfo.setDeleteFlag(0);
+        this.messageInfoMapper.insertSelective(messageInfo);
+        if(result>0){
+            return new ApiResponse(ApiMsgEnum.SUCCESS);
+        }else{
+            return new ApiResponse(ApiMsgEnum.FAIL);
+        }
+    }
+    /**
+     * 贷款申请删除
+     * @param apiReq
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    @ApiMethod(descript = "贷款申请删除", value = "backend-delete-loan-application", apiParams = { @ApiParam(descript = "贷款申请ID", name = "id")})
+    @Override
+    public ApiResponse<LoanApplication> deleteBkLoanApplicationById(ApiRequest apiReq) {
+        Long id = apiReq.getLong("id");
+        LoanApplication loanApplication=new LoanApplication();
+        loanApplication.setId(id);
+        loanApplication.setDeleteFlag(1);
+        int result = this.loanApplicationMapper.updateByPrimaryKeySelective(loanApplication);
+        if(result>0){
+            return new ApiResponse(ApiMsgEnum.SUCCESS);
+        }else{
+            return new ApiResponse(ApiMsgEnum.FAIL);
+        }
+    }
+}

@@ -1,0 +1,143 @@
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
+<%@ include file="/WEB-INF/pages/common/taglibs.jsp" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>贷款申请</title>
+    <%@ include file="/WEB-INF/pages/common/mainCss.jsp" %>
+</head>
+<body>
+<div class="main administrator">
+    <div class="main-top">
+        <h3>贷款申请</h3>
+    </div><!--main-top-->
+
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            <div class="pin">
+                <form class="form-inline" role="form" action="${ctx}/loan/loanApplicationList" method="post">
+                    <div class="form-group">
+                        手机号码: <input name="userPhone" type="text"  value="${userPhone}">
+                       贷款状态: <select name="state" >
+                            <option value="" >全部</option>
+                            <option value="1">报案</option>
+                            <option value="2">受理</option>
+                            <option value="3">驳回</option>
+                            <option value="4">贷款申请中</option>
+                            <option value="5">完成</option>
+                        </select>
+                       是否为交通事故: <select name="isTrafficAccident">
+                            <option value="">全部</option>
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button id="batchOperateBtn" type="submit" class="btn btn-default">查询</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th class="th-checkbox"><input type="checkbox" id="check-btn" class="tag" title="" data-original-title="全选/反选"></th>
+                <th width="100">用户姓名</th>
+                <th width="150">手机号码</th>
+                <th width="150">是否为交通事故</th>
+                <th width="200">贷款金额</th>
+                <th width="200">贷款用途</th>
+                <th width="100">状态</th>
+                <th width="200">详细地址</th>
+                <th width="200">时间</th>
+                <th width="200">操作</th>
+            </tr>
+            </thead>
+            <tbody class="class-list">
+            <c:forEach items="${loanApplicationList}" var="item">
+                <tr>
+                    <td></td>
+                    <td>${item.userName}</td>
+                    <td><strong>${item.userPhone}</strong></td>
+                    <td>
+                        <c:if test="${item.isTrafficAccident == 0}">否</c:if>
+                        <c:if test="${item.isTrafficAccident == 1}">是</c:if>
+                    </td>
+                    <td><strong>${item.loanMoney}</strong></td>
+                    <td>
+                        <c:if test="${item.loanPurpose == 1}">医疗费用垫付</c:if>
+                        <c:if test="${item.loanPurpose == 2}">生活康复支出</c:if>
+                    </td>
+                    <td>
+                        <c:if test="${item.state == 1}">报案</c:if>
+                        <c:if test="${item.state == 2}">已受理</c:if>
+                        <c:if test="${item.state == 3}">驳回</c:if>
+                        <c:if test="${item.state == 4}">申请中</c:if>
+                        <c:if test="${item.state == 5}">完成</c:if>
+                    </td>
+                    <td>${item.accidentAddress}</td>
+                    <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm"/></td>
+                    <th><a href="javascript:loanDelete('${item.id}');"><span class="glyphicon glyphicon-remove"></span>删除</a>&nbsp;&nbsp;&nbsp;
+                        <c:if test="${item.state == 1}">
+                        <a href="javascript:loanUpdate('${item.id}',2);"><span class="glyphicon glyphicon-remove"></span>受理</a>
+                        <a href="javascript:loanUpdate('${item.id}',3);"><span class="glyphicon glyphicon-remove"></span>驳回</a>
+                        </c:if>
+                        <c:if test="${item.state == 2}">
+                            <a href="javascript:loanUpdate('${item.id}',4);"><span class="glyphicon glyphicon-remove"></span>申请</a>
+                        </c:if>
+                        <c:if test="${item.state == 4}">
+                            <a href="javascript:loanUpdate('${item.id}',4);"><span class="glyphicon glyphicon-remove"></span>贷款完成</a>
+                        </c:if>
+                    </th>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td colspan="10">
+                    <c:if test="${page > 1}">
+                        <a href="${ctx}/loan/loanApplicationList?userId=${userId}&state=${state}&userPhone=${userPhone}&isTrafficAccident=${isTrafficAccident}&page=${page-1}">上一页</a>&nbsp;
+                    </c:if>
+                    <a href="${ctx}/loan/loanApplicationList?userId=${userId}&state=${state}&userPhone=${userPhone}&isTrafficAccident=${isTrafficAccident}&page=${page+1}">下一页</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div><!--panel-info-->
+
+    <div class="main-bottom">
+        <jsp:include page="/WEB-INF/pages/common/pagination.jsp" flush="true">
+            <jsp:param name="paginationObjectName" value="apiRsp" />
+            <jsp:param name="pageNoName" value="" />
+            <jsp:param name="requestUrl" value="${ctx}/system/admin/list" />
+            <jsp:param name="refreshDiv" value="" />
+        </jsp:include>
+    </div><!--main-bottom-->
+
+</div><!--main end-->
+
+<%@ include file="/WEB-INF/pages/common/mainFooter.jsp" %>
+<script>
+   /* var commentDelete = function(commentid){
+        ajaxSubmit("${ctx}/comment/delete?id="+commentid,{},function(){location.reload();},"删除成功","确认此条留言删除吗？",null);
+    }*/
+   function loanDelete(id){
+       ajaxSubmit("${ctx}/loan/loanApplicationTodelete",{"id":id},reload,"删除成功","确认删除该条信息吗？");
+   }
+
+   function loanUpdate(id,state){
+       ajaxSubmit("${ctx}/loan/loanApplicationToUpdate",{"id":id,"state":state},reload,"提交成功","确认提交该条信息吗？");
+   }
+
+  /*  var commentDetail = function(commentid){
+        openDialog({
+            frame:true,
+            title:"查看留言信息",
+            height:600,
+            width:500,
+            url:"${ctx}/comment/detail?id="+commentid
+        });
+    }*/
+</script>
+</body>
+</html>

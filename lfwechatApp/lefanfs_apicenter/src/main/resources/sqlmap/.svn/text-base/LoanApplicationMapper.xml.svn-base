@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lefanfs.apicenter.dao.LoanApplicationMapper" >
+  <resultMap id="BaseResultMap" type="com.lefanfs.apicenter.model.LoanApplication" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="is_traffic_accident" property="isTrafficAccident" jdbcType="INTEGER" />
+    <result column="loan_money" property="loanMoney" jdbcType="DOUBLE" />
+    <result column="loan_purpose" property="loanPurpose" jdbcType="INTEGER" />
+    <result column="accident_province" property="accidentProvince" jdbcType="VARCHAR" />
+    <result column="accident_city" property="accidentCity" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="accident_district" property="accidentDistrict" jdbcType="VARCHAR" />
+    <result column="accident_address" property="accidentAddress" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, user_name, user_phone, is_traffic_accident, loan_money, loan_purpose, 
+    accident_province, accident_city, state, accident_district, accident_address, create_time, 
+    delete_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from loan_application
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from loan_application
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lefanfs.apicenter.model.LoanApplication" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into loan_application (user_id, user_name, user_phone, 
+      is_traffic_accident, loan_money, loan_purpose, 
+      accident_province, accident_city, state, 
+      accident_district, accident_address, create_time, 
+      delete_flag)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{isTrafficAccident,jdbcType=INTEGER}, #{loanMoney,jdbcType=DOUBLE}, #{loanPurpose,jdbcType=INTEGER}, 
+      #{accidentProvince,jdbcType=VARCHAR}, #{accidentCity,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{accidentDistrict,jdbcType=VARCHAR}, #{accidentAddress,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lefanfs.apicenter.model.LoanApplication" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into loan_application
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="isTrafficAccident != null" >
+        is_traffic_accident,
+      </if>
+      <if test="loanMoney != null" >
+        loan_money,
+      </if>
+      <if test="loanPurpose != null" >
+        loan_purpose,
+      </if>
+      <if test="accidentProvince != null" >
+        accident_province,
+      </if>
+      <if test="accidentCity != null" >
+        accident_city,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="accidentDistrict != null" >
+        accident_district,
+      </if>
+      <if test="accidentAddress != null" >
+        accident_address,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="isTrafficAccident != null" >
+        #{isTrafficAccident,jdbcType=INTEGER},
+      </if>
+      <if test="loanMoney != null" >
+        #{loanMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="loanPurpose != null" >
+        #{loanPurpose,jdbcType=INTEGER},
+      </if>
+      <if test="accidentProvince != null" >
+        #{accidentProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentCity != null" >
+        #{accidentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="accidentDistrict != null" >
+        #{accidentDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentAddress != null" >
+        #{accidentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lefanfs.apicenter.model.LoanApplication" >
+    update loan_application
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="isTrafficAccident != null" >
+        is_traffic_accident = #{isTrafficAccident,jdbcType=INTEGER},
+      </if>
+      <if test="loanMoney != null" >
+        loan_money = #{loanMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="loanPurpose != null" >
+        loan_purpose = #{loanPurpose,jdbcType=INTEGER},
+      </if>
+      <if test="accidentProvince != null" >
+        accident_province = #{accidentProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentCity != null" >
+        accident_city = #{accidentCity,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="accidentDistrict != null" >
+        accident_district = #{accidentDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="accidentAddress != null" >
+        accident_address = #{accidentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lefanfs.apicenter.model.LoanApplication" >
+    update loan_application
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      is_traffic_accident = #{isTrafficAccident,jdbcType=INTEGER},
+      loan_money = #{loanMoney,jdbcType=DOUBLE},
+      loan_purpose = #{loanPurpose,jdbcType=INTEGER},
+      accident_province = #{accidentProvince,jdbcType=VARCHAR},
+      accident_city = #{accidentCity,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      accident_district = #{accidentDistrict,jdbcType=VARCHAR},
+      accident_address = #{accidentAddress,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectLoanApplicationByParam" resultMap="BaseResultMap"  parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from loan_application
+        where 1=1
+        <if test="state != null" >
+          and  state = #{state,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null" >
+            and  user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="userPhone != null" >
+            and  user_phone = #{userPhone,jdbcType=VARCHAR}
+        </if>
+        <if test="isTrafficAccident != null" >
+            and  is_traffic_accident = #{isTrafficAccident,jdbcType=INTEGER}
+        </if>
+        ORDER by id desc limit #{pageIndex} , #{pageSize}
+    </select>
+</mapper>
